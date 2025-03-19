@@ -1,0 +1,33 @@
+.header {
+    display: flex;
+    justify-content: left;
+    padding: 10px 20px;
+    background-color: rgb(187, 187, 187); /* Optional: Light background for the header */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for the header */
+    height: 9vh;
+  }
+  
+  /* Style the "How it works" button */
+  .how-it-works-btn {
+    background-color: black; 
+    color: white;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 10%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  .how-it-works-btn:hover{
+    border: 2px solid white;
+  }
+  
+  @media (max-width: 480px) {
+    .how-it-works-btn{
+      padding: 15px;
+      width: 100%;
+      color: red;
+    }
+  }

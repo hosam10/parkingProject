@@ -1,0 +1,114 @@
+/* PersonalDetails.css */
+
+/* Container for the entire form */
+.personal-details-container {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px;
+}
+
+/* Form container with a shadow effect */
+.personal-details-form {
+  display: flex;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.705); /* Shadow effect */
+  border-radius: 8px; /* Optional: adds rounded corners */
+  padding: 27px; /* Adds some padding inside the container */
+}
+
+/* Wrapper for the personal details sections */
+.personal-details-sections {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+/* Styling for the title in the form */
+.personal-details-form h2 {
+  font-size: 2rem; /* Adjust the size of the title */
+  font-weight: bold; /* Make the title bold */
+  color: black;
+  margin-bottom: 20px; /* Space below the title */
+  display: flex; /* Use flexbox to align image and text */
+  align-items: center; /* Center vertically */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Styling for the title image in the form */
+.personal-details-form h2 img {
+  margin-left: 10px; /* Add space between the text and the image */
+  width: 40px; /* Adjust the size of the image */
+  height: 40px; /* Adjust the size of the image */
+}
+
+/* Styling for the left section of the form */
+.personal-details-left,
+.personal-details-right {
+  width: 50%; /* Divide the container into two sections */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Left section specific styles */
+.personal-details-left {
+  background-color: rgb(247, 163, 6);
+}
+
+/* Right section specific styles */
+.personal-details-right {
+  background-color: #f4f4f4;
+}
+
+/* Input container for each form field */
+.input-group {
+  margin-bottom: 15px;
+}
+
+/* Label styling inside the input container */
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* Input styling */
+.input-group input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+/* Styling for the submit button */
+.submit-button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: rgb(247, 163, 6);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Button hover effect */
+.submit-button:hover {
+  background-color: orange;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+  .personal-details-form {
+    flex-direction: column;
+  }
+
+  .personal-details-left,
+  .personal-details-right {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .input-group {
+    margin-bottom: 15px;
+  }
+}

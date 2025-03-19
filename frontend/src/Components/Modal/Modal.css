@@ -1,0 +1,55 @@
+.modal-overlay-steps {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content-steps {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+}
+
+.close-button-steps {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.steps .step {
+  margin-top: 20px;
+}
+
+.steps .step strong {
+  color: #E57C1F; /* Matching the heading color in the image */
+  display: block;
+  margin-bottom: 5px;
+}
+
+.steps .step p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Additional styling for responsiveness and aesthetics */
+@media (max-width: 600px) {
+  .modal-content-steps {
+      width: 90%;
+      padding: 15px;
+  }
+}

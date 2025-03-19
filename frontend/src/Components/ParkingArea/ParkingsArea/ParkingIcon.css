@@ -1,0 +1,95 @@
+.ParkingsArea {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-top: none;
+    width: 60%;  /* Adjust the width as needed */
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
+    gap: 20px;  /* Add space between the grid items */
+    justify-items: center;  /* Center items horizontally within the grid */
+    align-items: center;  /* Center items vertically within the grid */
+    padding: 20px;  /* Add padding to the grid area */
+    margin-bottom: 25px;
+}
+
+button.parkingItem {
+    text-align: center;  /* Center content inside each grid item */
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 180px;  /* Adjust width for better balance with bigger image */
+    cursor: pointer;  /* Makes it look like a clickable button */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;  /* Add transition for shadow and border */
+    outline: none;  /* Remove default button outline */
+}
+
+/* Add hover effect for buttons */
+button.parkingItem:hover {
+    transform: scale(1.05);  /* Slightly increase the size on hover */
+}
+
+.ligh {
+    width: 40px;  /* Set width and height to make it circular */
+    height: 40px;
+    border-radius: 50%;  /* Make it circular */
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;  /* Adjust font size */
+}
+
+.number {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+img {
+    width: 120px;  /* Make the image bigger */
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;  /* Add a small rounded corner to the image */
+    margin-top: 10px; /* Add spacing between image and number */
+}
+
+/* Status Colors - Green, Blue, Red */
+.green {
+    background-color: green; /* Green for available */
+}
+
+.blue {
+    background-color: blue; /* blue for reserved */
+}
+
+.red {
+    background-color: red; /* Red for occupied */
+}
+
+/* Dynamically change the border and shadow color based on status */
+button.parkingItem.green {
+    /* border: 2px solid green; Green border */
+    box-shadow: 0 4px 8px rgba(0, 255, 0, 0.3);  /* Green shadow */
+    background-color: rgba(0, 128, 0, 0.266);
+}
+
+button.parkingItem.blue {
+    /* border: 2px solid blue; blue border */
+    box-shadow: 0 4px 8px rgba(4, 45, 190, 0.623);  /* blue shadow */
+    background-color: rgba(85, 202, 241, 0.551);
+}
+
+button.parkingItem.red {
+    /* border: 2px solid red; Red border */
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);  /* Red shadow */
+    background-color: rgba(255, 0, 0, 0.305);
+}
+
+button.parkingItem.yellow {
+    /* border: 2px solid red; Red border */
+    box-shadow: 0 4px 8px rgba(255, 255, 0, 0.384);  /* Red shadow */
+    background-color: rgba(255, 255, 0, 0.321);
+}

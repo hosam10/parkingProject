@@ -1,0 +1,142 @@
+/* Header Home Styles */
+.headerHome {
+  display: flex;
+  align-items: center; /* Ensure vertical alignment is centered */
+  justify-content: space-between; /* Distribute space evenly, push user image to the right */
+  padding: 10px 20px;
+  background-color: #f4f4f4; /* Lighter background color for better contrast */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 10vh; /* Slightly increased height for better spacing */
+}
+
+/* Logo on the left */
+.header-logo {
+  display: flex;
+  align-items: center; /* Vertically center the logo */
+  gap: 10px; /* Space between the logo and the navigation */
+  color: orange;
+}
+
+.header-logo h2 {
+  color: orange;
+  font-family: cursive;
+}
+
+/* User container for hover tooltip */
+.user-container {
+  position: relative; /* Needed for tooltip positioning */
+  display: flex;
+  justify-content: right;
+}
+
+/* Profile image */
+.user-image {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid orange;
+  object-fit: cover;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+
+/* Tooltip styling */
+.tooltip {
+  position: absolute;
+  bottom: -60px; /* Lowered further */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* Show tooltip on hover */
+.user-container:hover .tooltip {
+  opacity: 1;
+}
+
+/* Styling for Name (First Line) */
+.tooltip-name {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Styling for Email (Second Line) */
+.tooltip-email {
+  font-size: 0.8rem;
+  color: #ddd; /* Light gray for better contrast */
+  margin-top: 3px;
+}
+
+
+/* Sign-out button */
+.sign-out-btn {
+  border: 2px solid white;
+  background-color: orange;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect for sign-out button */
+.sign-out-btn:hover {
+  background-color: orange;
+  border-color: orange;
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .headerHome {
+    padding: 10px 15px;
+  }
+
+  .navigations {
+    gap: 20px;
+  }
+
+  .nav-item {
+    font-size: 1rem;
+  }
+
+  .user img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .sign-out-btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerHome {
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+  }
+
+  .navigations {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .nav-item {
+    font-size: 1.2rem;
+  }
+}

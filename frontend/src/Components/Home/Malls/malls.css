@@ -1,0 +1,59 @@
+.centerPar{
+    /* border: 2px solid black; */
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.292);
+
+}
+
+.price{
+    text-decoration: underline;
+    font-weight: bold;
+    /* font-family: ; */
+}
+
+  
+  .centerPar h1 img {
+    /* border: 2px solid black; */
+    width: 40px;  /* Adjust this to your desired size */
+    height: 40px; /* Adjust the height to keep the image proportional */
+  }
+  .centerPar {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .titleImg {
+    display: flex;
+    align-items: center; /* Vertically center-align the title and image */
+    justify-content: center; /* Horizontally center the content */
+    gap: 10px; /* Adds some space between the title and the image */
+  }
+  
+  .centerPar h1 {
+    font-size: 2rem; /* You can adjust the size of the title */
+    margin: 0; /* Remove default margin from h1 */
+  }
+  
+  .titleImg img {
+    width: 50px;  /* Set a specific width for the image */
+    height: 50px; /* Set a specific height for the image */
+    object-fit: contain; /* Makes sure the image is properly contained within the specified width and height */
+  }
+  
+  .greenWord{
+    color: green;
+  }
+
+  .blueWord{
+    color: blue;
+  }
+  
+  .redWord{
+    color: red;
+  }
+  .yellowWord{
+    color: rgb(207, 207, 2);
+  }
