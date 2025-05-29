@@ -1,0 +1,158 @@
+.ParkingsArea {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto 25px;
+    padding: 20px;
+    justify-items: center;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Default button styling */
+button.parkingItem {
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 100%;  /* take full width of the grid column */
+    max-width: 120px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+    outline: none;
+}
+
+button.parkingItem:hover {
+    transform: scale(1.05);
+}
+
+/* Status lights */
+.ligh {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Number inside parking item */
+.number {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Parking image */
+img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+/* Color statuses */
+.green {
+    background-color: green;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.red {
+    background-color: red;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+/* Colored button styles */
+button.parkingItem.green {
+    box-shadow: 0 4px 8px rgba(0, 255, 0, 0.3);
+    background-color: rgba(0, 128, 0, 0.266);
+}
+
+button.parkingItem.blue {
+    box-shadow: 0 4px 8px rgba(4, 45, 190, 0.623);
+    background-color: rgba(85, 202, 241, 0.551);
+}
+
+button.parkingItem.red {
+    box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);
+    background-color: rgba(255, 0, 0, 0.305);
+}
+
+button.parkingItem.yellow {
+    box-shadow: 0 4px 8px rgba(255, 255, 0, 0.384);
+    background-color: rgba(255, 255, 0, 0.321);
+}
+
+/* 🖥 Media Queries for responsiveness */
+@media (max-width: 768px) {
+    .ParkingsArea {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+
+    img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .number {
+        font-size: 14px;
+    }
+
+    .ligh {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .ParkingsArea {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+    }
+
+    button.parkingItem {
+        padding: 8px;
+        max-width: 100px;
+    }
+
+    .number {
+        font-size: 13px;
+    }
+
+    .ligh {
+        width: 22px;
+        height: 22px;
+        font-size: 11px;
+    }
+}
+
+.parking-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  margin-top: 2rem;
+}

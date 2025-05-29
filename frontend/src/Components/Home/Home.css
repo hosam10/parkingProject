@@ -1,0 +1,188 @@
+/* Home container */
+.home {
+    background-color: #888888a3;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creates 3 equal columns */
+    gap: 20px; /* Adjust spacing between cards */
+    padding: 20px; /* Add padding inside the grid */
+  }
+  
+  /* Style for each individual card */
+  .home .card {
+    text-align: center; /* Center text and image */
+    background-color: #fff; /* Background for the card */
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease; /* Add transition for hover effect */
+    cursor: pointer;
+    position: relative; /* Make sure the image is positioned within the card */
+    overflow: hidden; /* Hide anything that goes outside the card */
+    display: flex;
+    flex-direction: column; /* Ensure the image and text are vertically aligned */
+    height: 300px; /* Set a fixed height for the card */
+  }
+  
+  /* Hover effect for card */
+  .home .card:hover {
+    transform: scale(1.05); /* Slightly enlarge the card on hover */
+  }
+  
+  /* Image styling inside each card */
+  .home .card img {
+    width: 100%; /* Make the image take up full width of the card */
+    height: 100%; /* Make the image take up full height of the card */
+    object-fit: cover; /* Ensure the image covers the space fully without stretching */
+    border-radius: 10px; /* Rounded corners */
+  }
+  
+  /* Style for messages like "CHOOSE LOCATION" */
+  .message {
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
+    font-size: 24px;
+    color: #fff; /* White color for message */
+    font-weight: bold;
+  }
+  
+  /* Location section styling */
+  .location-section {
+    margin-bottom: 40px; /* Space between each location */
+  }
+  
+  /* Location title styling */
+  .location-title {
+    font-size: 2rem; /* Large font for the title */
+    color: #333; /* Dark text color */
+    text-align: left; /* Align text to the left */
+    margin-left: 20px; /* Add space from the left */
+    font-weight: bold; /* Make the title bold */
+    margin-bottom: 10px; /* Space below the title */
+  }
+  
+  /* Scrollable container for extra cards */
+  .scrollable-container {
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    gap: 20px; /* Space between cards */
+    padding: 10px;
+    margin-top: 10px;
+  }
+  
+  /* Card styles inside the scrollable container */
+  .scrollable-container .card {
+    width: 250px; /* Reduce the width of the cards inside the scrollable container */
+  }
+  
+  /* Dropdown styling */
+  .dropdown-options {
+    grid-column: 1 / -1; /* Makes the dropdown span all columns */
+    justify-self: center; /* Centers the dropdown in the grid */
+    margin: 20px 0;
+    border: 6px solid blue;
+  }
+  
+  /* Select dropdown styling */
+  select {
+    padding: 8px 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  select:hover {
+    border-color: #888;
+  }
+
+  /* Search input styling */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+  
+  .search-input {
+    width: 50%;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid black;
+    outline: none;
+  }
+  
+  .search-input:focus {
+    border-color: orange;
+  }
+
+  .location-container{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.384);
+    max-width: 1500px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .location-title{
+    /* border: 2px solid red; */
+    font-family: cursive;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 250px;
+    text-align: center;
+  }
+  
+  
+  /* Media Queries */
+  
+  /* For screens smaller than 1024px (Tablets and smaller devices) */
+  @media (max-width: 1024px) {
+    /* Adjust the grid to show 2 columns instead of 3 */
+    .home {
+      grid-template-columns: repeat(2, 1fr); /* Create 2 equal columns */
+    }
+  
+    .location-container {
+      flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    }
+  
+    /* Reduce the width of the cards inside the scrollable container */
+    .scrollable-container .card {
+      width: 200px;
+    }
+  
+    /* Adjust the location title font size */
+    .location-title {
+      font-size: 1.5rem; /* Smaller font size for smaller screens */
+
+    }
+  }
+  
+  /* For screens smaller than 768px (Mobile devices) */
+  @media (max-width: 768px) {
+    .home {
+      grid-template-columns: 1fr; /* Show 1 column for mobile devices */
+    }
+  
+    /* Make the cards inside the scrollable container stack vertically */
+    .scrollable-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    /* Adjust card width for mobile */
+    .scrollable-container .card {
+      width: 100%; /* Full width for mobile */
+    }
+  
+    /* Adjust the location title font size */
+    .location-title {
+      font-size: 1.2rem; /* Smaller font size for mobile screens */
+    }
+  }
+  
+  

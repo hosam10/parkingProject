@@ -1,0 +1,84 @@
+/* Home container */
+.home {
+  background-color: #888888a3;
+  height: auto;
+  padding: 20px; /* Add padding inside the grid */
+}
+
+/* Style for each individual location container */
+.location-container {
+  display: flex;
+  overflow-x: auto; /* Enables horizontal scroll */
+  gap: 20px; /* Space between cards */
+  margin-bottom: 30px; /* Space between location sections */
+  padding: 10px;
+}
+
+/* Card container styles */
+.card-container {
+  width: 300px; /* Adjust width as needed */
+  height: 280px; /* Set a fixed height for the card */
+  border-radius: 8px; /* Rounded corners for the card */
+  overflow: hidden; /* Ensures nothing goes outside the border-radius */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  margin: 20px; /* Space around the card */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
+  display: flex;
+  flex-direction: column; /* Ensure the content is vertically stacked */
+  cursor: pointer;
+}
+
+/* Hover effect for card */
+.card-container:hover {
+  transform: translateY(-3px); /* Slight lift effect on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+
+}
+
+/* Image styling inside each card */
+.card-container img {
+  width: 100%; /* Ensure the image covers the width of the card */
+  height: 80%; /* Ensure the image fills the top 60% of the card's height */
+  object-fit: cover; /* Make sure the image covers the area without stretching */
+  display: block; /* Remove any extra space below the image */
+}
+
+/* Button styles */
+.card-container button {
+  padding: 10px; /* Padding inside the title area */
+  margin-top: 10px; /* Space between the image and the title */
+  font-size: 1rem; /* Font size for the title */
+  color: #333; /* Dark color for better readability */
+  text-align: center; /* Center align the title text */
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid lightgray;
+  background-color: white; /* Background color for the button */
+  cursor: pointer; /* Make it look clickable */
+  font-family: cursive;
+}
+
+/* Hover effect for button */
+.card-container button:hover {
+  background-color: #f0f0f0; /* Light background on hover */
+  transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+/* For small screens, reduce card width */
+@media (max-width: 460px) {
+.card-container {
+  width: 100%; /* Full width on small screens */
+  height: auto; /* Adjust height automatically */
+}
+
+.card-container img {
+  height: 50%; /* Decrease image height on smaller screens */
+}
+}
+
+/* For medium screens, increase the width of the card slightly */
+@media (max-width: 1024px) {
+.card-container {
+  width: 80%; /* Make the cards a little wider */
+}
+}

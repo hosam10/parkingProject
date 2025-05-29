@@ -1,0 +1,59 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.home-page {
+    background-image: url(../images/background-parking2.jpg); /* Replace with your image path */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 100%; /* Full width of the page */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    color: white;
+}
+
+.home-page h1 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    text-shadow: 
+        2px 2px 5px rgba(0, 0, 0, 0.7),  /* Shadow for the bottom-right */
+        -2px -2px 5px rgba(0, 0, 0, 0.7), /* Shadow for the top-left */
+        2px -2px 5px rgba(0, 0, 0, 0.7),  /* Shadow for the top-right */
+        -2px 2px 5px rgba(0, 0, 0, 0.7);  /* Shadow for the bottom-left */
+    color:rgb(230, 149, 1);  /* Text color */
+}
+
+
+.home-page .button-container {
+    display: flex;
+    gap: 32px; /* Space between buttons */
+    margin-bottom: 100px;
+    margin-top: 12px;
+    
+}
+
+
+
+.home-page button {
+    background-color: black; /* Transparent background */
+    color: White; /* White text */
+    border: 2px solid orange; /* White border */
+    width: 120px;
+    height: 50px;
+    padding: 10px 20px;
+    font-size: 1.3rem;
+    border-radius: 0; /* Square corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.home-page button:hover {
+    font-weight: bold;
+    border: 2px solid black;
+}

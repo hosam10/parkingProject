@@ -1,0 +1,15 @@
+.disbled{
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.disabled-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 2rem;
+  font-family: 'Poppins', sans-serif;  
+  margin-top: 20px;
+  font-weight: bold;
+}

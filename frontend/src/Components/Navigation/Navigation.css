@@ -1,0 +1,47 @@
+
+.navigations {
+    display: flex;
+    justify-content: flex-start; /* Align navigation to the left */
+    gap: 30px; /* Increase space between navigation items */
+  }
+  
+  .nav-item {
+    padding: 10px 20px; /* Padding for navigation items */
+    font-size: 1.1rem; /* Slightly larger font for better readability */
+    cursor: pointer; /* Pointer cursor on hover */
+    font-weight: 600; /* Bold font for better emphasis */
+    color: #333; /* Darker color for text */
+    transition: color 0.3s ease, transform 0.3s ease; /* Smooth hover effect */
+  }
+  
+  /* Hover effect for navigation items */
+  .nav-item:hover {
+    color: orange; /* Blue color on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+  }
+
+  @media (max-width: 768px) {
+    .navigations {
+      gap: 20px; /* Less space between items on smaller screens */
+    }
+  
+    .nav-item {
+      font-size: 1rem; /* Smaller font for smaller screens */
+    }
+  
+
+  }
+  
+  @media (max-width: 480px) {
+  
+    .navigations {
+      flex-direction: column; /* Stack the navigation items vertically */
+      gap: 15px; /* Reduce gap between items */
+      align-items: center; /* Center align the navigation items */
+    }
+  
+    .nav-item {
+      font-size: 1.2rem; /* Larger font size for smaller screens */
+    }
+}
+  

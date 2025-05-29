@@ -1,0 +1,307 @@
+/* Login.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.login {
+  background-image: url(../images/background-parking2.jpg); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  background-color: rgba(61, 61, 61, 0.844);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border: 2px solid white;
+  padding-bottom: 30px;
+}
+
+.login-container img{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-size: 30px;
+  color: white;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.label {
+  display: block;
+  font-size: 16px;
+  color: white;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input[type="email"],
+.input[type="password"],
+.input[type="text"],
+.input[type="number"] {
+  width: 100%;
+  padding: 9px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+.form-group-register .input[type="email"],
+.form-group-register .input[type="password"],
+.form-group-register .input[type="text"],
+.form-group-register .input[type="number"]{
+  width: 100%;
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+
+.loginSubmit, .toggle-btn {
+  width: 50%;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  /* margin-top: 5px; */
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
+
+}
+.loginSubmit{
+  margin-bottom: 10px;
+  background-color: rgba(255, 166, 0, 0.595);
+  border:2px solid white;
+
+}
+.toggle-btn{
+  width: 100%;
+  background-color: rgba(255, 166, 0, 0.216);
+
+}
+
+.toggle-btn {
+  /* color: white; */
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.loginSubmit:hover {
+  background-color: rgb(217, 142, 3);
+  /* color: red; */
+
+}
+
+.toggle-btn:hover{
+  background-color: rgb(217, 142, 3);
+  border:2px solid white;
+
+}
+.lock {
+  width: 90px;
+  height: 90px;
+  border-radius: 40px;
+  /* border: 2px solid red; */
+  padding: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  /* Adding shadow to the lock image */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.853); /* Subtle shadow */
+}
+
+
+
+/* .toggle-btn:hover , .loginSubmit:hover  {
+  color: #0056b3;
+} */
+
+.p-login {
+  text-align: center;
+  font-size: 14px;
+  /* margin-top: 10px; */
+  color: white;
+  margin-top: 10px;
+
+  
+}
+.p-password{
+  margin-top: 20px;
+}
+
+.p-create{
+  border-top: 2px dotted black;
+  padding-top: 5px;
+  margin-top: 0px;
+}
+
+.p-reset{
+  margin-top: 15px;
+}
+
+.backBtn {
+  display: inline-block;
+  max-width: 70px;
+  /* text-decoration: underline; */
+  cursor: pointer;
+  color: orange;
+}
+
+
+.backBtn img{
+  width: 30px;
+  height: 30px;
+}
+
+.form-group-register {
+  width: 400px;
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+  margin-bottom: 5px; /* Add space between input fields */
+  /* border: 2px solid red; */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form-group-register label {
+  display: block; /* Makes the label a block element */
+  margin-bottom: 5px; /* Add space between label and input field */
+  font-weight: bold; /* Optional: Makes the label text bold */
+}
+
+.form-group-register > .input {
+  max-width: 400px;  /* Each input takes 48% of the width */
+  margin-bottom: 15px;
+}
+
+.form-group-register > .input:nth-child(odd) {
+  margin-right: 4%; /* Adds space between the left and right columns */
+}
+
+
+button.toggle-btn-register {
+  width: 20%;
+  padding: 7px;
+  background-color: rgba(255, 166, 0, 0.468);
+  color: white;
+  /* border: 2px solid white; */
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+button.toggle-btn-register-signin {
+  width: 80%;
+
+  /* background-color: red; */
+}
+button.toggle-btn-register:hover {
+  background-color: rgb(217, 142, 3);
+  border: 2px solid white;
+}
+
+.login-container-register {
+  justify-content: center;
+  width: 100%;
+  max-width: 500px;
+  background-color: rgba(61, 61, 61, 0.844);
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* padding: 20px; */
+  border: 2px solid white;
+  height: 100vh;
+}
+
+
+
+
+
+/* Popup Styles */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);  /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup-content h2 {
+  margin: 0;
+  color: orange; /* or any color you like */
+}
+
+.popup-content p {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.popup-content img {
+  width: 50px;  /* Set the image size */
+  height: 50px; /* Set the image size */
+  margin-left: 10px; /* Space between text and image */
+}
+
+
+.login-container-reset{
+  height: 100vh;
+}
+
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .login-container {
+    padding: 15px;
+    width: 90%;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  .loginSubmit, .toggle-btn {
+    padding: 10px;
+  }
+}

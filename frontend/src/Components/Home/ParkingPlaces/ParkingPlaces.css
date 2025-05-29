@@ -1,0 +1,103 @@
+.parkingPlaces {
+    /* background-color: #222; */
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* padding: 20px; */
+  }
+  
+  /* Title Section */
+  .parkingPlaces-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #f1c40f;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  /* About Section */
+  .parkingPlaces-about {
+    font-size: 1rem;
+    color: #ccc;
+    text-align: center;
+    margin-bottom: 30px;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  
+  /* Form Section */
+  .form-container {
+    /* background-color: #333; */
+    color: black;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    width: 400px;
+  }
+  
+  .form-title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #f1c40f;
+  }
+  
+  .form-subtitle {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #bbb;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-label {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #ccc;
+  }
+  
+  .form-input {
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: #444;
+    border: 1px solid #555;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+  }
+  
+  .form-input:focus {
+    outline: none;
+    border-color: #f1c40f;
+  }
+  
+  .net-amount {
+    font-size: 18px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #f1c40f;
+  }
+  
+  .confirm-btn {
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+  
+  .confirm-btn:hover {
+    background-color: #0056b3;
+  }
+  
