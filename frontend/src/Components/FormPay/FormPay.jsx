@@ -13,6 +13,8 @@ const FormPay = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [location, setLocation] = useState("Kiryon");
   const [expiryError, setExpiryError] = useState("");
+  const [showCvvModal, setShowCvvModal] = useState(false);
+  const [cvvInput, setCvvInput] = useState("");
 
   const [cardDetails, setCardDetails] = useState({
     card_number: "",
@@ -22,7 +24,6 @@ const FormPay = () => {
   });
 
   const [hasCard, setHasCard] = useState(false);
-
   const carNumber = JSON.parse(localStorage.getItem("user"))?.car_number;
 
   useEffect(() => {
@@ -74,129 +75,52 @@ const FormPay = () => {
     }
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setErrorMessage("");
-
-  //   if (!/^\d{16}$/.test(cardDetails.card_number)) {
-  //     setErrorMessage("Card number must contain exactly 16 digits.");
-  //     return;
-  //   }
-
-  //   if (!/^\d{3}$/.test(cardDetails.cvv)) {
-  //     setErrorMessage("CVV must contain exactly 3 digits.");
-  //     return;
-  //   }
-
-  //   const expiryDate = new Date(cardDetails.expiry_date);
-  //   const today = new Date();
-  //   if (expiryDate < today) {
-  //     setErrorMessage("Card expiry date must be in the future.");
-  //     return;
-  //   }
-
-  //   axios
-  //     .post("http://127.0.0.1:5000/update_card_details", {
-  //       car_number: carNumber,
-  //       card_number: cardDetails.card_number,
-  //       card_holder: cardDetails.card_holder,
-  //       cvv: cardDetails.cvv,
-  //       expiry_date: cardDetails.expiry_date,
-  //     })
-  //     .then((response) => {
-  //       alert(response.data.message);
-  //       axios
-  //         .get(`http://127.0.0.1:5000/get_card_details?car_number=${carNumber}`)
-  //         .then((response) => {
-  //           if (response.data.card) {
-  //             setCardDetails(response.data.card);
-  //             setHasCard(true);
-  //           }
-  //         });
-  //     })
-  //     .catch(() => {
-  //       setErrorMessage("Error saving card details.");
-  //     });
-  // };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrorMessage(""); // Clear previous errors
-  
-    // ✅ Validate Card Number
-    if (!/^\d{16}$/.test(cardDetails.card_number)) {
-      setErrorMessage("Card number must contain exactly 16 digits.");
-      return;
-    }
-  
-    // ✅ Validate CVV
-    if (!/^\d{3}$/.test(cardDetails.cvv)) {
-      setErrorMessage("CVV must contain exactly 3 digits.");
-      return;
-    }
-  
-    // ✅ Validate Expiry Date
-    const expiryDate = new Date(cardDetails.expiry_date);
-    const today = new Date();
-    if (expiryDate < today) {
-      setErrorMessage("Card expiry date must be in the future.");
-      return;
-    }
-  
-    // ✅ Send Card Data
+  const handleSaveParking = () => {
     axios
-      .post("http://127.0.0.1:5000/update_card_details", {
+      .post("http://127.0.0.1:5000/save_parking_record", {
         car_number: carNumber,
-        card_number: cardDetails.card_number,
-        card_holder: cardDetails.card_holder,
-        cvv: cardDetails.cvv,
-        expiry_date: cardDetails.expiry_date,
+        entry_time: entryTime,
+        exit_time: exitTime,
+        amount: netAmount.toFixed(2),
+        location: location,
       })
       .then((response) => {
-        alert("Card saved: " + response.data.message);
-  
-        // ✅ After saving card, save the parking record
-        return axios.post("http://127.0.0.1:5000/save_parking_record", {
-          car_number: carNumber,
-          entry_time: entryTime,
-          exit_time: exitTime,
-          amount: netAmount.toFixed(2),
-          location: location,
-        });
-      })
-      .then((res) => {
-        alert("Parking record saved: " + res.data.message);
+        alert(response.data.message);
         navigate("/home");
       })
-      .catch((err) => {
-        console.error("❌ Error:", err);
-        setErrorMessage("Error saving card or parking data.");
+      .catch(() => {
+        setErrorMessage("Failed to save parking record.");
       });
   };
-  
-  const handleAddNewCard = () => {
-    setHasCard(false);
-    setCardDetails({
-      card_number: "",
-      card_holder: "",
-      cvv: "",
-      expiry_date: "",
-    });
+
+  const verifyCvvAndSave = () => {
+    axios
+      .post("http://127.0.0.1:5000/verify_cvv", {
+        car_number: carNumber,
+        cvv: cvvInput,
+      })
+      .then((res) => {
+        if (res.data.success) {
+          handleSaveParking();
+        } else {
+          setErrorMessage("Invalid CVV.");
+        }
+      })
+      .catch(() => {
+        setErrorMessage("CVV verification failed.");
+      })
+      .finally(() => {
+        setShowCvvModal(false);
+        setCvvInput("");
+      });
   };
 
-  const handleExpiryChange = (e) => {
-    const value = e.target.value;
-    const today = new Date().toISOString().split("T")[0];
-    if (value < today) {
-      setExpiryError("Expiry date cannot be in the past.");
-    } else {
-      setExpiryError("");
-      setCardDetails({ ...cardDetails, expiry_date: value });
-    }
+  const handleCardClick = () => {
+    setShowCvvModal(true);
   };
 
   return (
-    <>
+    <div className="payPage">
       <HeaderHome />
       <div className="formPay">
         <h1>Basic Pass</h1>
@@ -207,7 +131,6 @@ const FormPay = () => {
             <input
               type="datetime-local"
               id="entry-time"
-              name="entry-time"
               value={entryTime}
               onChange={handleEntryTimeChange}
               required
@@ -218,7 +141,6 @@ const FormPay = () => {
             <input
               type="datetime-local"
               id="exit-time"
-              name="exit-time"
               value={exitTime}
               onChange={handleExitTimeChange}
               required
@@ -227,135 +149,45 @@ const FormPay = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="net-amount">Net Amount</label>
-          <input
-            type="text"
-            id="net-amount"
-            name="net-amount"
-            value={`$${netAmount.toFixed(2)}`}
-            readOnly
-          />
+          <label>Net Amount</label>
+          <input type="text" value={`$${netAmount.toFixed(2)}`} readOnly />
         </div>
 
         {hasCard ? (
           <div className="card-container">
-            <button
-              className="card-btn"
-              onClick={() => {
-                axios
-                  .post("http://127.0.0.1:5000/save_parking_record", {
-                    car_number: carNumber,
-                    entry_time: entryTime,
-                    exit_time: exitTime,
-                    amount: netAmount.toFixed(2),
-                    location: location,
-                  })
-                  .then((response) => {
-                    alert(response.data.message);
-                    navigate("/home");
-                  })
-                  .catch(() => {
-                    setErrorMessage("Failed to save parking record.");
-                  });
-              }}
-            >
+            <button className="card-btn" onClick={handleCardClick}>
               {`**** **** **** ${cardDetails.card_number.slice(-4)}`}
             </button>
-
-            <button className="add-card-btn" onClick={handleAddNewCard}>
+            <button className="add-card-btn" onClick={() => setHasCard(false)}>
               Add New Card
             </button>
           </div>
-        ) : entryTime && exitTime ? (
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="card-number">Card Number</label>
-              <input
-                type="text"
-                id="card-number"
-                name="card-number"
-                value={cardDetails.card_number}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (/^\d{0,16}$/.test(value)) {
-                    setCardDetails({ ...cardDetails, card_number: value });
-                  }
-                }}
-                maxLength={16}
-                inputMode="numeric"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="card-holder">Card Holder</label>
-              <input
-                type="text"
-                id="card-holder"
-                name="card-holder"
-                value={cardDetails.card_holder}
-                onChange={(e) =>
-                  setCardDetails({ ...cardDetails, card_holder: e.target.value })
-                }
-                required
-              />
-            </div>
-
-            <div className="form-group-row">
-              <div className="form-group">
-                <label htmlFor="cvv">CVV</label>
-                <input
-                  type="text"
-                  id="cvv"
-                  name="cvv"
-                  value={cardDetails.cvv}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    if (/^\d{0,3}$/.test(value)) {
-                      setCardDetails({ ...cardDetails, cvv: value });
-                    }
-                  }}
-                  maxLength={3}
-                  inputMode="numeric"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="expiry-date">Expiry Date</label>
-                <input
-                  type="date"
-                  id="expiry-date"
-                  name="expiry-date"
-                  value={cardDetails.expiry_date}
-                  min={new Date().toISOString().split("T")[0]}
-                  onChange={handleExpiryChange}
-                  required
-                />
-                {expiryError && (
-                  <p
-                    className="error-message"
-                    style={{ color: "red", fontSize: "14px" }}
-                  >
-                    {expiryError}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <button className="confirm-btn" type="submit">
-              Save Card
-            </button>
-          </form>
         ) : (
-          <p style={{ color: "gray", fontSize: "15px" }}>
-            Please select entry and exit time before adding card details.
-          </p>
+          <p>Please enter card details to continue.</p>
+        )}
+
+        {showCvvModal && (
+          <div className="modal-overlay">
+            <div className="modal-content">
+              <h3>Enter CVV to Confirm</h3>
+              <input
+                type="password"
+                maxLength={3}
+                value={cvvInput}
+                onChange={(e) => setCvvInput(e.target.value)}
+                placeholder="CVV"
+              />
+              <div className="modal-buttons">
+                <button onClick={verifyCvvAndSave}>Confirm</button>
+                <button onClick={() => setShowCvvModal(false)}>Cancel</button>
+              </div>
+            </div>
+          </div>
         )}
 
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
-    </>
+    </div>
   );
 };
 

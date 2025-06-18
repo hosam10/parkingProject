@@ -54,7 +54,7 @@ const Home = () => {
   );
 
   return (
-    <div>
+    <div className="homee">
       <HeaderHome />
       {/* <Par
         onSelectLocation={handleSelectLocation}
@@ -63,6 +63,7 @@ const Home = () => {
       /> */}
       
       {/* Search input */}
+      
       <div className="search-container">
         <input
           type="text"

@@ -96,6 +96,38 @@
   background-color: orange;
 }
 
+
+.modal {
+  background: white;
+  padding: 2rem;
+  max-width: 400px;
+  margin: auto;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal input {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  width: 80%;
+  font-size: 1rem;
+}
+
+.modal-actions button {
+  margin: 0 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+
 /* Responsive Design for smaller screens */
 @media (max-width: 768px) {
   .personal-details-form {

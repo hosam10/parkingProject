@@ -30,15 +30,15 @@ function App() {
         {/* Malls */}
         <Route path="/parking/Kiryon/North" element={<Kiryons 
         title="North-Parking" 
-        price="3$ per hour"
+        price="3₪ per hour"
         />} />
 
         <Route path="/parking/Kiryon/South" element={<Kiryons title="South-Parking" 
-        price="8$ per hour" />} />
+        price="8₪ per hour" />} />
         <Route path="/parking/Kiryon/West" element={<Kiryons title="West-Parking" 
-        price="12$ per hour" />} />
+        price="12₪ per hour" />} />
         <Route path="/parking/Kiryon/East" element={<Kiryons title="East-Parking" 
-        price="10$ per hour" />} />
+        price="10₪ per hour" />} />
 
         <Route path="/PersonalDetails" element={<PersonalDetails />} />
         <Route path="/formPay" element={<FormPay />} />

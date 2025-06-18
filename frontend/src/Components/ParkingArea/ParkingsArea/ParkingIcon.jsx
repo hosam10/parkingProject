@@ -1,9 +1,9 @@
 import React from "react";
 import "./ParkingIcon.css";
 import parkingdisability from '../../images/disability-Parking2.png'; // Parking image
+import parkingElectric from '../../images/charger-station.png'; // Parking image
 import parkingMotor from '../../images/parking-motor.png'; // Parking image
 import parkingCar from '../../images/parked-car.png'; // Parking image
-import parkingElectric from '../../images/charger-station.png'; // Parking image
 
 import { useNavigate } from "react-router-dom";
 

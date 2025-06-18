@@ -10,8 +10,14 @@ const History = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
+    const carNumber = JSON.parse(localStorage.getItem("user"))?.car_number;
+    if (!carNumber) {
+      setErrorMessage("User is not logged in.");
+      return;
+    }
+
     axios
-      .get("http://127.0.0.1:5000/get_all_parking_records")
+      .get(`http://127.0.0.1:5000/get_all_parking_records?car_number=${carNumber}`)
       .then((response) => {
         setParkingHistory(response.data);
       })
@@ -46,7 +52,7 @@ const History = () => {
                 {parkingHistory.length > 0 ? (
                   parkingHistory.map((record, index) => (
                     <tr key={index}>
-                      <td>{index + 1}</td> {/* מספר סידורי */}
+                      <td>{index + 1}</td>
                       <td>{record.car_number}</td>
                       <td>{record.location}</td>
                       <td>{record.entryTime}</td>
@@ -57,7 +63,7 @@ const History = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" className="history-no-records">
+                    <td colSpan="7" className="history-no-records">
                       No records found
                     </td>
                   </tr>

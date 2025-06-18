@@ -1,59 +1,70 @@
-.centerPar{
-    /* border: 2px solid black; */
-    width: 66%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.292);
-
+.header-hover-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px; /* sensitive area for hover */
+  z-index: 1001;
 }
 
-.price{
-    text-decoration: underline;
-    font-weight: bold;
-    /* font-family: ; */
+.header-wrapper {
+  position: fixed;
+  top: -200px; /* hidden upward */
+  left: 0;
+  right: 0;
+  transition: top 0.3s ease;
+  background-color: white; /* optional, for visibility */
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-  
-  .centerPar h1 img {
-    /* border: 2px solid black; */
-    width: 40px;  /* Adjust this to your desired size */
-    height: 40px; /* Adjust the height to keep the image proportional */
-  }
-  .centerPar {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .titleImg {
-    display: flex;
-    align-items: center; /* Vertically center-align the title and image */
-    justify-content: center; /* Horizontally center the content */
-    gap: 10px; /* Adds some space between the title and the image */
-  }
-  
-  .centerPar h1 {
-    font-size: 2rem; /* You can adjust the size of the title */
-    margin: 0; /* Remove default margin from h1 */
-  }
-  
-  .titleImg img {
-    width: 50px;  /* Set a specific width for the image */
-    height: 50px; /* Set a specific height for the image */
-    object-fit: contain; /* Makes sure the image is properly contained within the specified width and height */
-  }
-  
-  .greenWord{
-    color: green;
-  }
+/* Show on hover */
+.header-hover-zone:hover + .header-wrapper,
+.header-wrapper:hover {
+  top: 0;
+}
 
-  .blueWord{
-    color: blue;
-  }
-  
-  .redWord{
-    color: red;
-  }
-  .yellowWord{
-    color: rgb(207, 207, 2);
-  }
+.centerPar {
+  text-align: center;
+  padding: 5px;
+}
+
+.titleImg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.titleImg img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.centerPar h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.price {
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.greenWord {
+  color: green;
+}
+
+.redWord {
+  color: red;
+}
+
+.blueWord {
+  color: blue;
+}
+
+.yellowWord {
+  color: rgb(207, 207, 2);
+}

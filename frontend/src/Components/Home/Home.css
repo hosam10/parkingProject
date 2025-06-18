@@ -7,6 +7,10 @@
     gap: 20px; /* Adjust spacing between cards */
     padding: 20px; /* Add padding inside the grid */
   }
+  .homee{
+    background-color: #a7a6a683;
+    height: auto;
+  }
   
   /* Style for each individual card */
   .home .card {
@@ -64,6 +68,7 @@
   
   /* Scrollable container for extra cards */
   .scrollable-container {
+    
     display: flex;
     overflow-x: auto; /* Enable horizontal scrolling */
     gap: 20px; /* Space between cards */
@@ -100,6 +105,7 @@
 
   /* Search input styling */
 .search-container {
+  
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -125,6 +131,7 @@
     border-radius: 10px;
     margin-left: auto;
     margin-right: auto;
+    background-color: rgb(225, 224, 224);
   }
 
   .location-title{

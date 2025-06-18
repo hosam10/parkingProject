@@ -2,39 +2,159 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
-  background-color: #77777783;
-  padding: 20px;
-  font-family: sans-serif;
-  width: 66%;
-  margin-left: auto;
-  margin-right: auto;
+  gap: 5px;
+  background-color: #a7a6a683;
+  padding: 10px;
+  height: auto;
+  min-height: 100vh;
+  font-family: cursive;
+  width: 100%;
+  margin: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.electric-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;  
 }
 
 .row-layout {
   display: flex;
-  gap: 100px;
+  /* gap: 10px; */
   align-items: center;
-  border: 4px solid green;
-
+  /* margin-top: 10px; */
+  /* margin-bottom: 10px; */
 }
+.tableX1 tbody tr{
+  /* border: 2px solid blue; */
+}
+.row-layout tr td{
+  height: 50px;
+  width: 150px;
+  /* border: 2px solid red; */
+}
+
+
+.row-layout tr{
+  height: 80px;
+  width: 150px;
+}
+
+.roadLeft1{
+  /* border: 2px solid red; */
+  margin-left: 20px;
+  margin-right: 20px;  
+  /* flex: 1; */
+}
+.roadLeft2{
+  /* border: 2px solid green; */
+  margin-left: 20px;
+  margin-right: 20px;
+  /* flex: 1; */
+}
+
+.underLine .disabled-line{
+  /* margin-top: 10px; */
+  /* margin-bottom: 10px; */
+  
+}
+
+.first-white{
+  /* margin-top: 20px; */
+}
+.roadRight1{
+  /* border: 2px solid blue; */
+  margin-left: 100px;
+  margin-right: 100px;
+}
+.under-road{
+  /* margin-top: 40px; */
+}
+
+#arrow-img{
+  width: 50px;
+  height: 50px;
+}
+
+.electric-row tr {
+  width: 600px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  font-weight: bold;
+}
+
 
 table {
   border-collapse: separate;
   border-spacing: 10px;
 }
-.tableX2{
-  border: 4px solid yellow;
-}
-.tableX2 tbody{
-  border: 4px solid red;
+
+
+.row-layout .tableX1:nth-of-type(odd) {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
 }
 
-.tableX3{
-  border: 4px solid red;
+.row-layout .tableX1:nth-of-type(even) {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
 }
+
+.tableX2 {
+  border-top: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  padding: 10px 15px 0px 0px;
+}
+
+.tableX3 {
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+  padding: 0px 10px 0px 0px;
+}
+.tableX2 {
+  /* width: 55%; */
+  /* border: 2px solid red; */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  /* margin-bottom: 10px; */
+  /* margin-top: 10px; */
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.road-white-container {
+  /* border: 2px solid red; */
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  
+}
+
 td.parking-cell {
-  width: 50px;
+  text-align: center;
+  padding: 8px;
+  height: 100%;
+  border-radius: 8px;
+  width: 100%; /* take full width of the grid column */
+  max-width: 160px;
+  max-height: 100px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+  outline: none;
+  font-weight: bold;
+  /* border: 2px solid blue; */
+  /* width: 50px;
   margin-left: 20px;
   height: 90px;
   background-color: #aaa;
@@ -44,14 +164,19 @@ td.parking-cell {
   font-size: 16px;
   cursor: pointer;
   position: relative;
-  transition: background 0.3s;
+  transition: background 0.3s; */
 }
 
 .parking-cell.selected {
   outline: 3px solid yellow;
 }
 
-.parking-cell.regular {
+.parking-cell {
+  border: 2px solid black;
+  margin-left: 15px;
+}
+
+.parking-cell.normal {
   background-color: #9f9;
 }
 
@@ -60,8 +185,8 @@ td.parking-cell {
 }
 
 .parking-cell.disabled {
-  background-color: #f88;
-  cursor: not-allowed;
+  background-color: #115bb483;
+  /* cursor: not-allowed; */
 }
 
 .disabled-icon {
@@ -69,8 +194,40 @@ td.parking-cell {
   bottom: 4px;
   right: 4px;
   font-size: 18px;
-  color: blue;
+  /* color: blue; */
 }
+
+.underLine {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+
+
+#gate-img{
+  width: 150px;
+  height: 150px;
+  margin-right: 20px;
+}
+
+#gate{
+  display: block;
+  margin-left: 20px;
+  margin-right: auto;
+  width: 150px;
+  height: 150px;
+
+}
+
+
+
+.underLine span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+
 
 .electric-icon {
   position: absolute;
@@ -80,20 +237,166 @@ td.parking-cell {
   color: darkorange;
 }
 
+.parking-cell img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
 .road-horizontal {
   width: 100%;
-  height: 20px;
+  height: 10px;
   background-color: #444;
-  border-radius: 10px;
+  margin-right: auto;  /* יוצר הידוק לימין */
+  /* border: 2px solid red; */
+  
 }
 
+#r3{
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+  width: 92%;
+  /* position: absolute; */
+  /* border: 2px solid blue; */
+}
+
+.road-white {
+  width: 190px;
+  height: 12px;
+  background-color: white;
+  /* border-radius: 10px; */
+  margin-bottom: 10px;
+  margin-top: 15px;
+}
+
+.r1 {
+  /* margin-bottom: 50px; */
+  /* border: 2px solid green; */
+
+}
+
+.r2 {
+  /* margin-top: 25px; */
+  /* margin-bottom: 60px; */
+  /* border: 2px solid green; */
+}
+
+
+.line-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 60px; 
+  margin-left: 0;
+  margin-right: auto;
+  ;
+}
+
+.line {
+  width: 8px;         /* thickness of the line */
+  height: 90px;       /* length of each line segment */
+  background-color: #444;
+  /* border: 2px solid green; */
+}
+
+.gate-img {
+  width: 130px;        /* or any size you prefer */
+  height: auto;
+  margin-bottom: 40px;
+  /* margin-right: 20px; */
+  /* border: 2px solid blue; */
+}
+
+
+.row-layoutt {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
 .road-vertical {
-  width: 20px;
-  height: 580px;
+  width: 10px;
+  height: 250px;
   background-color: #444;
   border-radius: 10px;
 }
 
-.tr{
-  border: 4px solid red;
+@media (max-width: 768px) {
+  /* 1. Hide all arrow images */
+  #arrow-img {
+    display: none !important;
+  }
+
+  /* 2. Hide road lines that divide sections */
+  .road-white-container,
+  .road-vertical,
+  .road-horizontal.r2,
+  #r3 {
+    display: none !important;
+  }
+
+  /* 3. Make row-layout vertical */
+  .row-layout {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  /* 4. Stack each table row horizontally */
+  .tableX1 {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .tableX1 tbody {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tableX1 tbody tr {
+    display: flex;
+    gap: 10px;
+  }
+
+  .tableX1 tr td {
+    width: 80px !important;
+    height: 60px !important;
+    font-size: 14px;
+    padding: 4px;
+  }
+
+  .parking-cell img {
+    width: 30px;
+    height: 30px;
+  }
+
+  /* 5. Adjust top and bottom rows */
+  .electric-row tr {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .tableX2, .tableX3 {
+    display: block;
+    width: 100%;
+  }
+
+  .line-wrapper,
+  .r1,
+  .r2,
+  .under-road {
+    display: none !important;
+  }
+
+  .layout {
+    width: 100% !important;
+    padding: 10px;
+  }
+
+  
 }
+
