@@ -17,7 +17,7 @@
 /* Card container styles */
 .card-container {
   width: 300px; /* Adjust width as needed */
-  height: 280px; /* Set a fixed height for the card */
+  /* height: 280px; */
   border-radius: 8px; /* Rounded corners for the card */
   overflow: hidden; /* Ensures nothing goes outside the border-radius */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
@@ -26,6 +26,8 @@
   display: flex;
   flex-direction: column; /* Ensure the content is vertically stacked */
   cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Hover effect for card */

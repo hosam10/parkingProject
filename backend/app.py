@@ -76,15 +76,21 @@ def register():
     except Exception as e:
         return jsonify({"message": "Registration failed", "error": str(e)}), 500
 
-@app.route('/get_user_details', methods=['GET'])
+@app.route("/get_user_details", methods=["GET"])
 def get_user_details():
-    car_number = request.args.get('car_number')
+    car_number = request.args.get("car_number")
     if not car_number:
-        return jsonify({"message": "Car number is required"}), 400
-    cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users WHERE car_number = %s", (car_number,))
-    user = cursor.fetchone()
-    return jsonify({"user": user}) if user else (jsonify({"message": "User not found"}), 404)
+        return jsonify({"error": "Missing car number"}), 400
+
+    try:
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM users WHERE car_number = %s", (car_number,))
+        user = cursor.fetchone()
+        cursor.close()
+        return jsonify({"user": user})
+    except Exception as e:
+        print("❌ Error in get_user_details:", e)
+        return jsonify({"error": "Database error"}), 500
 
 @app.route('/update_user_details', methods=['PUT'])
 def update_user_details():
@@ -131,18 +137,20 @@ def search_parking():
     else:
         return jsonify({"message": "No parking records found for this car number"}), 404  # Return a message if no records found
     
-@app.route('/get_card_details', methods=['GET'])
+@app.route("/get_card_details", methods=["GET"])
 def get_card_details():
-    car_number = request.args.get('car_number')
+    car_number = request.args.get("car_number")
 
-    cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM cards WHERE car_number = %s", (car_number,))
-    card = cursor.fetchone()
+    try:
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM cards WHERE car_number = %s", (car_number,))
+        cards = cursor.fetchall()  # ⬅️ חובה לקרוא את כל התוצאות
+        cursor.close()  # ⬅️ חובה לסגור את ה־cursor אחרי סיום העבודה
 
-    if card:
-        return jsonify({"card": card}), 200
-    else:
-        return jsonify({"message": "No card details found"}), 404
+        return jsonify({"cards": cards})
+    except Exception as e:
+        print("❌ Error in get_card_details:", e)
+        return jsonify({"message": "Database error"}), 500
 
 @app.route('/update_card_details', methods=['POST'])
 def update_card_details():
@@ -243,62 +251,85 @@ def update_card_details():
 #         return jsonify({'message': 'Error saving parking record', 'error': str(e)}), 500
 
 
+
 @app.route('/save_parking_record', methods=['POST'])
 def save_parking_record():
     try:
         data = request.get_json()
+        print("📥 Received data:", data)
 
         car_number = data.get('car_number')
         location = data.get('location')
-        entry_time = data.get('entry_time')  # '2025-06-01T15:00'
+        entry_time = data.get('entry_time')
         exit_time = data.get('exit_time')
-        price = float(data.get('amount'))
+        amount = data.get('amount')
 
-        if not all([car_number, location, entry_time, exit_time, price]):
+        if not all([car_number, location, entry_time, exit_time, amount]):
+            print("❌ Missing fields")
             return jsonify({'message': 'Missing required fields'}), 400
 
-        from datetime import datetime
-        entry_dt = datetime.fromisoformat(entry_time)
-        exit_dt = datetime.fromisoformat(exit_time)
-        entry_only_time = entry_dt.strftime('%H:%M:%S')
-        exit_only_time = exit_dt.strftime('%H:%M:%S')
+        try:
+            entry_dt = datetime.strptime(entry_time, "%Y-%m-%dT%H:%M")
+            exit_dt = datetime.strptime(exit_time, "%Y-%m-%dT%H:%M")
+        except ValueError as ve:
+            print("❌ Invalid datetime format:", ve)
+            return jsonify({'message': 'Invalid datetime format', 'error': str(ve)}), 400
+
+        if exit_dt <= entry_dt:
+            print("❌ Exit time before entry")
+            return jsonify({'message': 'Exit time must be after entry time'}), 400
+
+        entry_full = entry_dt.strftime('%Y-%m-%d %H:%M:%S')
+        exit_full = exit_dt.strftime('%Y-%m-%d %H:%M:%S')
+        print("✅ Formatted datetimes:", entry_full, exit_full)
+
+        try:
+            price = float(amount)
+        except (TypeError, ValueError):
+            print("❌ Invalid price:", amount)
+            return jsonify({'message': 'Invalid amount format'}), 400
+
         duration_hours = round((exit_dt - entry_dt).total_seconds() / 3600, 2)
+        print("⏱ Duration:", duration_hours, "hours")
 
         cursor = db.cursor(dictionary=True)
-
-        # ✅ Check for overlap: any record where (new entry < existing exit) AND (new exit > existing entry)
         cursor.execute("""
-            SELECT * FROM parking_records
-            WHERE car_number = %s
-              AND %s < exitTime
-              AND %s > entryTime
-        """, (car_number, exit_only_time, entry_only_time))
-        
+    SELECT * FROM parking_records
+    WHERE car_number = %s
+      AND location = %s
+      AND %s < exitTime
+      AND %s > entryTime
+""", (car_number, location, exit_full, entry_full))
+
         overlap = cursor.fetchone()
         if overlap:
+            print("⚠️ Overlap found:", overlap)
             return jsonify({'message': 'Car is already parked during this time'}), 409
 
-        # ✅ Insert the new parking record
         cursor.execute("""
             INSERT INTO parking_records (car_number, location, entryTime, exitTime, hours, price)
             VALUES (%s, %s, %s, %s, %s, %s)
         """, (
             car_number,
             location,
-            entry_only_time,
-            exit_only_time,
+            entry_full,
+            exit_full,
             duration_hours,
             price
         ))
         db.commit()
         cursor.close()
 
+        print("✅ Parking record saved successfully.")
         return jsonify({'message': 'Parking record saved successfully'}), 200
 
     except Exception as e:
-        print("🔥 ERROR:", str(e))
+        import traceback
+        traceback.print_exc()
         return jsonify({'message': 'Error saving parking record', 'error': str(e)}), 500
 
+
+   
 from datetime import timedelta
 from decimal import Decimal
 
@@ -414,20 +445,58 @@ def verify_password_code():
 def verify_cvv():
     data = request.get_json()
     car_number = data.get('car_number')
+    card_number = data.get('card_number')
     input_cvv = data.get('cvv')
 
-    if not car_number or not input_cvv:
-        return jsonify({'success': False, 'message': 'Missing car number or CVV'}), 400
+    if not all([car_number, card_number, input_cvv]):
+        return jsonify({'success': False, 'message': 'Missing data'}), 400
 
-    cursor = db.cursor(dictionary=True)
-    cursor.execute("SELECT cvv FROM cards WHERE car_number = %s", (car_number,))
-    record = cursor.fetchone()
+    try:
+        cursor = db.cursor(dictionary=True, buffered=True)
+        cursor.execute("""
+            SELECT cvv FROM cards 
+            WHERE car_number = %s AND card_number = %s
+        """, (car_number, card_number))
+        record = cursor.fetchone()
+        cursor.close()
 
-    if record and record['cvv'] == input_cvv:
-        return jsonify({'success': True}), 200
-    else:
-        return jsonify({'success': False, 'message': 'CVV does not match'}), 401
+        if record and record['cvv'] == input_cvv:
+            return jsonify({'success': True}), 200
+        else:
+            return jsonify({'success': False, 'message': 'CVV does not match'}), 401
+    except Exception as e:
+        print("❌ Error in verify_cvv:", e)
+        return jsonify({'success': False, 'message': 'Server error'}), 500
 
+
+@app.route('/add_card', methods=['POST'])
+def add_card():
+    try:
+        data = request.get_json()
+        print("📥 Received /add_card data:", data)
+
+        car_number = data.get('car_number')
+        card_number = data.get('card_number')
+        card_holder = data.get('card_holder')
+        cvv = data.get('cvv')
+        expiry_date = data.get('expiry_date')
+
+        if not all([car_number, card_number, card_holder, cvv, expiry_date]):
+            return jsonify({'message': 'Missing fields'}), 400
+
+        cursor = db.cursor()
+        cursor.execute("""
+            INSERT INTO cards (car_number, card_number, card_holder, cvv, expiry_date)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (car_number, card_number, card_holder, cvv, expiry_date))
+        db.commit()
+        cursor.close()
+
+        return jsonify({'message': 'Card added successfully'}), 200
+
+    except Exception as e:
+        print("❌ DB error add_card:", str(e))
+        return jsonify({'message': 'Failed to add card', 'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,8 +1,5 @@
 import React from "react";
 import "./AreaP.css";
-import ParkingIcon from "./ParkingIcon";
-import ParkingIconDisabled from "../ParkingAeraDisabled/ParkingIconDisabled";
-import ParkingIconElectric from "../ParkingIconElectric/ParkingIconElectric";
 import Test from "../Test";
 
 const AreaP = (title) => {

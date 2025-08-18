@@ -123,7 +123,7 @@ const Register = () => {
               <label className="label">Car Number</label>
               <input
                 className="input"
-                type="text"
+                type="number"
                 value={carNumber}
                 onChange={(e) => setCarNumber(e.target.value)}
                 placeholder="123-45-678"

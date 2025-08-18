@@ -17,7 +17,9 @@ const History = () => {
     }
 
     axios
-      .get(`http://127.0.0.1:5000/get_all_parking_records?car_number=${carNumber}`)
+      .get(
+        `http://127.0.0.1:5000/get_all_parking_records?car_number=${carNumber}`
+      )
       .then((response) => {
         setParkingHistory(response.data);
       })
@@ -44,7 +46,7 @@ const History = () => {
                   <th>Location</th>
                   <th>Entry Time</th>
                   <th>Exit Time</th>
-                  <th>Hours</th>
+                  <th>Time</th>
                   <th>Price</th>
                 </tr>
               </thead>
@@ -57,8 +59,21 @@ const History = () => {
                       <td>{record.location}</td>
                       <td>{record.entryTime}</td>
                       <td>{record.exitTime}</td>
-                      <td>{record.hours ?? "-"}</td>
-                      <td>{record.price}</td>
+                      <td>
+                        {(() => {
+                          const entry = new Date(record.entryTime);
+                          const exit = new Date(record.exitTime);
+                          const diffMinutes = Math.round(
+                            (exit - entry) / 60000
+                          ); // הבדל בדקות
+
+                          return diffMinutes < 60
+                            ? `${diffMinutes} min`
+                            : `${(diffMinutes / 60).toFixed(2)} Hours`;
+                        })()}
+                      </td>
+
+                      <td>{record.price} ₪</td>
                     </tr>
                   ))
                 ) : (

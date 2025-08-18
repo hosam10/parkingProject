@@ -1,17 +1,18 @@
 /* Main container for the form */
 .formPay {
   max-width: 500px;
-  margin: 50px auto;
+  margin: 50px auto 0 0;
   padding: 30px;
   border-radius: 10px;
   background: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .payPage{
-  background-color: #a7a6a683;
-  height: 100vh;
+  /* background-color: #a7a6a683; */
+  height: auto;
 }
 
 /* Form Title */
@@ -219,6 +220,15 @@
 
 .modal-buttons button:last-child:hover {
   background-color: #495057;
+}
+
+.save-card-btn{
+  /* border: 2px solid red; */
+  padding: 10px ;
+  cursor: pointer;
+  background-color: orange;
+  border-radius: 10px;
+  border: none;
 }
 
 /* Optional fade animation */
