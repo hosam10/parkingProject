@@ -392,7 +392,7 @@ def send_verification_code():
         msg['To'] = email
 
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-        server.login('hosam.elhiga@gmail.com', 'sxdb kdyn nbfo aezb')
+        server.login('hosam.elhiga@gmail.com', 'azsx qwfu xjzk mhhw')
         server.send_message(msg)
         server.quit()
 
