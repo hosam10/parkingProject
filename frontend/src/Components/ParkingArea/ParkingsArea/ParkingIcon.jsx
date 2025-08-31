@@ -1,18 +1,18 @@
 import React from "react";
 import "./ParkingIcon.css";
-import parkingdisability from '../../images/disability-Parking2.png'; // Parking image
-import parkingElectric from '../../images/charger-station.png'; // Parking image
-import parkingMotor from '../../images/parking-motor.png'; // Parking image
-import parkingCar from '../../images/parked-car.png'; // Parking image
+import parkingdisability from "../../images/disability-Parking2.png"; // Parking image
+import parkingElectric from "../../images/charger-station.png"; // Parking image
+import parkingMotor from "../../images/parking-motor.png"; // Parking image
+import parkingCar from "../../images/parked-car.png"; // Parking image
 
 import { useNavigate } from "react-router-dom";
 
 const ParkingIcon = () => {
   const navigate = useNavigate();
-  
+
   // Function to handle the click event for a parking spot
   const handleClick = () => {
-    navigate('/formPay');
+    navigate("/formPay");
     // You can perform any action when a parking spot is clicked, like navigating or showing details.
   };
 
@@ -37,7 +37,11 @@ const ParkingIcon = () => {
           <img src={parkingCar} alt="Parking 3" />
         </button>
 
-        <button className="parkingItem red" onClick={() => handleClick(10)} disabled>
+        <button
+          className="parkingItem red"
+          onClick={() => handleClick(10)}
+          disabled
+        >
           <div className="number">4</div>
           <img src={parkingCar} alt="Parking 4" />
         </button>
@@ -62,11 +66,15 @@ const ParkingIcon = () => {
           <img src={parkingCar} alt="Parking 8" />
         </button>
 
-        <button className="parkingItem red" onClick={() => handleClick(12)} disabled>
+        <button
+          className="parkingItem red"
+          onClick={() => handleClick(12)}
+          disabled
+        >
           <div className="number">9</div>
           <img src={parkingCar} alt="Parking 9" />
         </button>
-        
+
         <button className="parkingItem green" onClick={() => handleClick(12)}>
           <div className="number">10</div>
           <img src={parkingCar} alt="Parking 10" />
@@ -77,12 +85,20 @@ const ParkingIcon = () => {
           <img src={parkingCar} alt="Parking 11" />
         </button>
 
-        <button className="parkingItem red" onClick={() => handleClick(12)} disabled>
+        <button
+          className="parkingItem red"
+          onClick={() => handleClick(12)}
+          disabled
+        >
           <div className="number">12</div>
           <img src={parkingCar} alt="Parking 12" />
         </button>
 
-        <button className="parkingItem red" onClick={() => handleClick(12)} disabled>
+        <button
+          className="parkingItem red"
+          onClick={() => handleClick(12)}
+          disabled
+        >
           <div className="number">13</div>
           <img src={parkingCar} alt="Parking 13" />
         </button>

@@ -181,9 +181,16 @@ td.parking-cell {
 }
 
 .parking-cell.electric {
-  background-color: #ff9;
+  background-color: #9f9;
 }
 
+.parking-cell.electric:nth-child(1) {
+  background-color: rgb(255, 187, 153);
+}
+
+.parking-cell.electric:nth-child(3) {
+  background-color: rgb(255, 187, 153);
+}
 .parking-cell.disabled {
   background-color: #115bb483;
   /* cursor: not-allowed; */
@@ -397,6 +404,5 @@ td.parking-cell {
     padding: 10px;
   }
 
-  
 }
 

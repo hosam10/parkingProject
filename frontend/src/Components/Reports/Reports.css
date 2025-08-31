@@ -1,0 +1,44 @@
+.report-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+  direction: rtl;
+  font-family: "Arial", sans-serif;
+}
+
+.report-container h2 {
+  text-align: center;
+  color: #2c3e50;
+}
+
+.report-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.report-controls select,
+.report-controls button {
+  padding: 8px 14px;
+  font-size: 16px;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.report-table th,
+.report-table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+.report-table th {
+  background-color: #3498db;
+  color: white;
+}

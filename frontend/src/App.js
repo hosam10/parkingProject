@@ -12,6 +12,8 @@ import FormPay from './Components/FormPay/FormPay';
 import History from './Components/History/History';
 import ResetPssword from './Components/ResetPssword/ResetPssword';
 import Test from './Components/ParkingArea/Test';
+import Reports from './Components/Reports/Reports';
+import AdminPanel from './Components/AdminPanel/AdminPanel';
 
 function App() {
   return (
@@ -26,6 +28,9 @@ function App() {
         <Route path="/firstPage" element={<FirstPage />} />
         
         <Route path="/history" element={<History />} />
+
+        <Route path="/admin/report" element={<Reports />} />
+        <Route path="/admin" element={<AdminPanel />} />
 
         {/* Malls */}
         <Route path="/parking/Kiryon/North" element={<Kiryons 

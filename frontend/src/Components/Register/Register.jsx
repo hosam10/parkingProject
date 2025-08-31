@@ -1,90 +1,135 @@
+// src/pages/Register.jsx
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../Login/Login.css";
-import Header from "../Header/Header";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [carNumber, setCarNumber] = useState(""); // New field
-  const [carType, setCarType] = useState(""); // New field
-  const [carYear, setCarYear] = useState(""); // New field
+  const [carNumber, setCarNumber] = useState("");
+  const [carType, setCarType] = useState("");
+  const [carYear, setCarYear] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [carYearError, setCarYearError] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); // To show error messages
+  const [isYearModalOpen, setIsYearModalOpen] = useState(false);
+
+  // כפילויות (onBlur)
+  const [emailTaken, setEmailTaken] = useState(false);
+  const [phoneTaken, setPhoneTaken] = useState(false);
+  const [carTaken, setCarTaken]   = useState(false);
+
+  const MIN_YEAR = 1990;
+  const MAX_YEAR = 2025;
   const navigate = useNavigate();
+
+  const CAR_BRANDS = ["Toyota","Volkswagen","Hyundai","Kia","Honda","Nissan","Ford","Chevrolet","Tesla",
+    "BMW","Mercedes-Benz","Audi","Lexus","Porsche","Mazda","Subaru","Mitsubishi","Suzuki",
+    "Volvo","Skoda","Seat","Cupra","Renault","Peugeot","Citroën","Dacia","Opel","Fiat",
+    "Alfa Romeo","Jeep","Dodge","RAM","GMC","Cadillac","Mini","Land Rover","Jaguar",
+    "Infiniti","Acura","BYD","Geely","MG","Chery","Haval","Great Wall","SAIC Maxus","Tata","Mahindra"
+  ];
+
+  const normalizePhone = (v) =>
+    v.replace(/\D/g, "").replace(/^972/, "0").slice(0, 10);
+
+  async function checkEmail() {
+    if (!email) return;
+    try {
+      const { data } = await axios.post("http://127.0.0.1:5000/register", {
+        email, check_only: true,
+      });
+      setEmailTaken(Boolean(data?.exists?.email));
+    } catch { setEmailTaken(false); }
+  }
+
+  async function checkPhone() {
+    const p = normalizePhone(phone);
+    if (!p) return;
+    try {
+      const { data } = await axios.post("http://127.0.0.1:5000/register", {
+        phone: p, check_only: true,
+      });
+      setPhoneTaken(Boolean(data?.exists?.phone));
+    } catch { setPhoneTaken(false); }
+  }
+
+  async function checkCar() {
+    const c = carNumber.replace(/\D/g, "");
+    if (!c) return;
+    try {
+      const { data } = await axios.post("http://127.0.0.1:5000/register", {
+        car_number: c, check_only: true,
+      });
+      setCarTaken(Boolean(data?.exists?.car_number));
+    } catch { setCarTaken(false); }
+  }
+
+  const handleCarYearChange = (e) => {
+    const raw = e.target.value.replace(/\D/g, "").slice(0, 4);
+    setCarYear(raw);
+    if (raw.length < 4) { setCarYearError(""); setIsYearModalOpen(false); return; }
+    const y = Number(raw);
+    const invalid = y < MIN_YEAR || y > MAX_YEAR;
+    if (invalid) {
+      setCarYearError(`שנת הרכב חייבת להיות בין ${MIN_YEAR} ל־${MAX_YEAR}`);
+      setIsYearModalOpen(true);
+    } else {
+      setCarYearError("");
+      setIsYearModalOpen(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(""); // Clear previous error messages
+    setErrorMessage("");
 
     try {
-        const response = await axios.post("http://127.0.0.1:5000/register", {
-            name,
-            address,
-            email,
-            password,
-            car_number: carNumber, // Send car_number to backend
-            car_type: carType, // Send car_type to backend
-            car_year: carYear, // Send car_year to backend
-        });
-        // Show the response message
-        alert(response.data.message);  // Show the success message as an alert or display it in the UI
-        console.log(response.data.message);
-        navigate("/login"); // Redirect to login page after successful registration
+      const payload = {
+        name,
+        address,
+        phone: normalizePhone(phone),
+        email,
+        password,
+        car_number: carNumber.replace(/\D/g, ""),
+        car_type: carType,
+        car_year: carYear,
+      };
+      const res = await axios.post("http://127.0.0.1:5000/register", payload);
+      alert(res.data.message);
+      navigate("/login");
     } catch (error) {
-        // Display error message if registration fails
-        setErrorMessage(error.response?.data?.message || "Something went wrong");
-        console.error(error.response?.data?.message || "Something went wrong");
+      const msg = error.response?.data?.message || "Something went wrong";
+      setErrorMessage(msg);
+      if (/Email already exists/i.test(msg)) setEmailTaken(true);
+      if (/Phone already exists/i.test(msg)) setPhoneTaken(true);
+      if (/Car number already exists/i.test(msg)) setCarTaken(true);
     }
-};
-  
-
-  const handleHome = () => {
-    navigate("/login");
   };
 
-  const handleCarYearChange = (e) => {
-    const year = e.target.value;
-    if (year < 1990 || year > 2025) {
-      setCarYearError("Car year must be between 1990 and 2025");
-    } else {
-      setCarYearError("");
-    }
-    setCarYear(year);
-  };
-  const handleSignIn = () => {
-    navigate("/login");
-  };
-  
   return (
     <>
-      {/* <Header /> */}
-
       <div className="login">
         <div className="login-container-register">
           <form onSubmit={handleSubmit}>
-            {/* <div className="backBtn" onClick={handleHome}>
-              &lt;&lt; Back
-            </div> */}
             <h2>Create Account</h2>
-            {errorMessage && (
-              <div className="error-message">{errorMessage}</div>
-            )}{" "}
-            {/* Display error message */}
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
+
             <div className="form-group-register">
               <label className="label">Name</label>
               <input
                 className="input"
                 type="text"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value.replace(/[^A-Za-z\u0590-\u05FF\s]/g, ""))}
                 placeholder="john"
                 required
               />
             </div>
+
             <div className="form-group-register">
               <label className="label">Address</label>
               <input
@@ -96,17 +141,42 @@ const Register = () => {
                 required
               />
             </div>
+
+            <div className="form-group-register">
+              <label className="label">Phone</label>
+              <input
+                className="input phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => {
+                  const digits = e.target.value.replace(/\D/g, "");
+                  const norm = digits.startsWith("972") ? "0" + digits.slice(3) : digits;
+                  setPhone(norm.slice(0, 10));
+                  setPhoneTaken(false);
+                }}
+                onBlur={checkPhone}
+                placeholder="0521234567"
+                required
+                inputMode="tel"
+                maxLength={10}
+              />
+              {phoneTaken && <p className="error-message">Phone already exists</p>}
+            </div>
+
             <div className="form-group-register">
               <label className="label">Email</label>
               <input
                 className="input"
                 type="email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => { setEmail(e.target.value); setEmailTaken(false); }}
+                onBlur={checkEmail}
                 placeholder="john@gmail.com"
-                required
+                
               />
+              {emailTaken && <p className="error-message">Email already exists</p>}
             </div>
+
             <div className="form-group-register">
               <label className="label">Choose a Password:</label>
               <input
@@ -118,29 +188,46 @@ const Register = () => {
                 required
               />
             </div>
-            {/* New Car Details Fields */}
+
             <div className="form-group-register">
               <label className="label">Car Number</label>
               <input
                 className="input"
-                type="number"
+                type="text"
                 value={carNumber}
-                onChange={(e) => setCarNumber(e.target.value)}
+                onChange={(e) => {
+                  const d = e.target.value.replace(/\D/g, "").slice(0, 8);
+                  let f = d;
+                  if (d.length >= 8)      f = d.replace(/(\d{3})(\d{2})(\d{0,3}).*/, "$1-$2-$3");
+                  else if (d.length >= 7) f = d.replace(/(\d{2})(\d{3})(\d{0,2}).*/, "$1-$2-$3");
+                  else if (d.length >= 6) f = d.replace(/(\d{2})(\d{2})(\d{0,2}).*/, "$1-$2-$3");
+                  setCarNumber(f);
+                  setCarTaken(false);
+                }}
+                onBlur={checkCar}
                 placeholder="123-45-678"
+                inputMode="numeric"
                 required
               />
+              {carTaken && <p className="error-message">Car number already exists</p>}
             </div>
+
             <div className="form-group-register">
               <label className="label">Car Type</label>
               <input
                 className="input"
                 type="text"
+                list="car-brands"
                 value={carType}
                 onChange={(e) => setCarType(e.target.value)}
                 placeholder="Audi"
                 required
               />
+              <datalist id="car-brands">
+                {CAR_BRANDS.map((b) => <option key={b} value={b} />)}
+              </datalist>
             </div>
+
             <div className="form-group-register">
               <label className="label">Car Year</label>
               <input
@@ -149,20 +236,38 @@ const Register = () => {
                 value={carYear}
                 onChange={handleCarYearChange}
                 required
-                min="1990"
-                max="2025"
-                placeholder="1990-2025"
+                min={MIN_YEAR}
+                max={MAX_YEAR}
+                placeholder={`${MIN_YEAR}-${MAX_YEAR}`}
+                title="שנת ייצור הרכב"
               />
-              {carYearError && <p className="error-message">{carYearError}</p>}{" "}
-              {/* Display error message */}
+              {carYearError && <p className="error-message">{carYearError}</p>}
             </div>
-            <p className="p-login p-create ">
-            <button type="submit" className="toggle-btn-register">
-              Sign Up
-            </button>
 
+            {isYearModalOpen && (
+              <div className="modal-overlay" onClick={() => setIsYearModalOpen(false)}>
+                <div className="modal" onClick={(e) => e.stopPropagation()}>
+                  <h3>שגיאה</h3>
+                  <p>{carYearError || `שנת הרכב חייבת להיות בין ${MIN_YEAR} ל־${MAX_YEAR}`}</p>
+                  <button onClick={() => setIsYearModalOpen(false)}>סגור</button>
+                </div>
+              </div>
+            )}
+
+            <p className="p-login p-create ">
+              <button
+                type="submit"
+                className="toggle-btn-register"
+                disabled={emailTaken || phoneTaken || carTaken}
+              >
+                Sign Up
+              </button>
             </p>
-            <button onClick={handleSignIn} className="toggle-btn-register toggle-btn-register-signin">
+            <button
+              onClick={() => navigate("/login")}
+              className="toggle-btn-register toggle-btn-register-signin"
+              type="button"
+            >
               Sign in
             </button>
           </form>

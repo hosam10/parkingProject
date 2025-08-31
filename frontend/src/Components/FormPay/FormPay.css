@@ -231,6 +231,62 @@
   border: none;
 }
 
+
+/* רשימת רכבים שמורים + גלילה */
+.saved-wrap { margin-bottom: 12px; }
+.saved-title { margin: 8px 0 10px; font-size: 16px; color: #333; }
+
+.saved-list{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+  /* גלילה */
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;               /* Firefox */
+  scrollbar-color: #bdbdbd transparent;
+}
+
+/* Chrome / Edge / Safari */
+.saved-list::-webkit-scrollbar{ width: 8px; }
+.saved-list::-webkit-scrollbar-thumb{ background: #c7c7c7; border-radius: 8px; }
+.saved-list::-webkit-scrollbar-thumb:hover{ background: #a9a9a9; }
+
+.saved-item{
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: .2s ease;
+}
+.saved-item:hover{ border-color: #ff9800; box-shadow: 0 4px 10px rgba(0,0,0,.1); }
+
+.saved-item-top{ font-weight: 700; font-size: 14px; }
+.saved-item-sub{ font-size: 12px; color: #555; }
+
+/* גלילה גם לכרטיסים קיימים */
+.card-container.scroll-y{
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #bdbdbd transparent;
+}
+.card-container.scroll-y::-webkit-scrollbar{ width: 8px; }
+.card-container.scroll-y::-webkit-scrollbar-thumb{ background: #c7c7c7; border-radius: 8px; }
+.card-container.scroll-y::-webkit-scrollbar-thumb:hover{ background: #a9a9a9; }
+
+.saved-item.selected {
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  background-color: #e6f0ff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
 /* Optional fade animation */
 @keyframes fadeIn {
   from {

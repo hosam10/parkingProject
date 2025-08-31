@@ -1,0 +1,153 @@
+/* AdminPanelReports.css */
+
+.adminREPORT-container {
+  padding: 2rem;
+  background-color: #f7f9fc;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.adminREPORT-title {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+}
+
+.adminREPORT-cards {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.adminREPORT-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  padding: 1.5rem 2rem;
+  width: 250px;
+  text-align: center;
+  transition: 0.3s;
+}
+.adminREPORT-card:hover {
+  transform: translateY(-5px);
+}
+
+.adminREPORT-card h3 {
+  margin-bottom: 0.5rem;
+  color: #34495e;
+}
+
+.adminREPORT-card p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #16a085;
+}
+
+.adminREPORT-subtitle {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.adminREPORT-chart {
+  margin: 0 auto;
+  max-width: 600px;
+}
+
+.adminREPORT-bar-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.adminREPORT-bar-container span {
+  width: 50px;
+  font-weight: bold;
+  color: #555;
+}
+
+.adminREPORT-bar {
+  height: 24px;
+  background-color: #3498db;
+  border-radius: 5px;
+  padding-left: 10px;
+  color: white;
+  line-height: 24px;
+}
+
+.filter-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-container label {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.adminREPORT-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.adminREPORT-table th, .adminREPORT-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.adminREPORT-table th {
+  background-color: #3498db;
+  color: white;
+}
+
+.adminREPORT-table tr:hover {
+  background-color: #f2f6ff;
+}
+
+.filter-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.filter-container label {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.adminREPORT-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  margin-top: 1rem;
+}
+
+.adminREPORT-table th, .adminREPORT-table td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.adminREPORT-table th {
+  background-color: #3498db;
+  color: white;
+}
+
+.adminREPORT-table tr:hover {
+  background-color: #f2f6ff;
+}
+.summary-row {
+  background-color: #f0f4f8;
+  text-align: center;
+}

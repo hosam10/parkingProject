@@ -1,146 +1,273 @@
 /* PersonalDetails.css */
 
-/* Container for the entire form */
-.personal-details-container {
-  display: flex;
-  justify-content: space-between;
-  margin: 40px;
+/* ========= בסיס ========= */
+:root{
+  --pd-primary: rgb(247, 163, 6);
+  --pd-primary-600: #f59e0b;
+  --pd-primary-700: #ea8a00;
+  --pd-text: #111827;
+  --pd-muted: #6b7280;
+  --pd-bg: #f7f7f7;
+  --pd-card: #ffffff;
+  --pd-border: #e5e7eb;
+  --pd-danger: #dc2626;
+  --pd-danger-600: #b91c1c;
+  --pd-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
 
-/* Form container with a shadow effect */
+/* Container */
+.personal-details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 32px;
+}
+
+/* ========= טופס פרטים אישיים ========= */
 .personal-details-form {
   display: flex;
   width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.705); /* Shadow effect */
-  border-radius: 8px; /* Optional: adds rounded corners */
-  padding: 27px; /* Adds some padding inside the container */
+  background: var(--pd-card);
+  box-shadow: var(--pd-shadow);
+  border-radius: 12px;
+  padding: 28px;
 }
 
-/* Wrapper for the personal details sections */
 .personal-details-sections {
   display: flex;
   flex-direction: row;
   width: 100%;
+  gap: 0;
 }
 
-/* Styling for the title in the form */
 .personal-details-form h2 {
-  font-size: 2rem; /* Adjust the size of the title */
-  font-weight: bold; /* Make the title bold */
-  color: black;
-  margin-bottom: 20px; /* Space below the title */
-  display: flex; /* Use flexbox to align image and text */
-  align-items: center; /* Center vertically */
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--pd-text);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* Styling for the title image in the form */
 .personal-details-form h2 img {
-  margin-left: 10px; /* Add space between the text and the image */
-  width: 40px; /* Adjust the size of the image */
-  height: 40px; /* Adjust the size of the image */
+  margin-left: 10px;
+  width: 40px;
+  height: 40px;
 }
 
-/* Styling for the left section of the form */
+/* חצאים */
 .personal-details-left,
 .personal-details-right {
-  width: 50%; /* Divide the container into two sections */
+  width: 50%;
   padding: 20px;
   border-radius: 10px;
 }
 
-/* Left section specific styles */
 .personal-details-left {
-  background-color: rgb(247, 163, 6);
+  background-color: var(--pd-primary);
+  color: #111;
 }
 
-/* Right section specific styles */
 .personal-details-right {
   background-color: #f4f4f4;
 }
 
-/* Input container for each form field */
+/* קבוצת קלטים */
 .input-group {
-  margin-bottom: 15px;
+  margin-bottom: 16px;
 }
 
-/* Label styling inside the input container */
 .input-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: var(--pd-text);
 }
 
-/* Input styling */
+.personal-details-left .input-group label {
+  color: #141414;
+}
+
+/* קלטים */
 .input-group input {
   width: 100%;
-  padding: 8px;
+  padding: 10px 12px;
   font-size: 14px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+  border-radius: 8px;
+  border: 1px solid var(--pd-border);
+  background: #fff;
+  transition: box-shadow .2s ease, border-color .2s ease, transform .04s;
 }
 
-/* Styling for the submit button */
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--pd-primary-700);
+  box-shadow: 0 0 0 4px rgba(247,163,6,0.18);
+}
+
+.input-group input:disabled {
+  background: #f3f4f6;
+  color: var(--pd-muted);
+  cursor: not-allowed;
+}
+
+/* כפתור עדכון */
 .submit-button {
-  padding: 10px;
+  padding: 11px 16px;
   font-size: 16px;
-  background-color: rgb(247, 163, 6);
+  background-color: var(--pd-primary);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
+  font-weight: 700;
+  transition: transform .06s ease, background-color .15s ease, opacity .15s ease;
 }
 
-/* Button hover effect */
-.submit-button:hover {
-  background-color: orange;
-}
+.submit-button:hover { background-color: var(--pd-primary-600); }
+.submit-button:active { transform: translateY(1px); }
+.submit-button:disabled { opacity: .6; cursor: not-allowed; }
 
-
+/* ========= מודאל אימות ========= */
 .modal {
   background: white;
   padding: 2rem;
-  max-width: 400px;
+  max-width: 420px;
   margin: auto;
-  border-radius: 8px;
+  border-radius: 12px;
   text-align: center;
+  box-shadow: var(--pd-shadow);
 }
 
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: fixed; inset: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  display:flex; align-items:center; justify-content:center;
 }
 
+.modal h2{ margin: 0 0 8px; }
+.modal p{ color: var(--pd-muted); margin: 0 0 12px; }
 .modal input {
-  margin: 1rem 0;
-  padding: 0.5rem;
-  width: 80%;
+  margin: 12px 0 16px;
+  padding: 10px 12px;
+  width: 85%;
   font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--pd-border);
+}
+.modal-actions { display:flex; gap:10px; justify-content:center; }
+.modal-actions button{
+  padding: 8px 14px; border: 0; border-radius: 10px; font-weight: 700; cursor: pointer;
+  background: var(--pd-primary); color: #fff;
+}
+.modal-actions button:last-child{ background:#e5e7eb; color:#111; }
+
+/* ========= הודעות שגיאה כלליות ========= */
+.error-message{
+  margin-top: 6px;
+  color: #b42318;
+  background: #fee4e2;
+  border: 1px solid #fecdca;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 14px;
 }
 
-.modal-actions button {
-  margin: 0 0.5rem;
-  padding: 0.5rem 1rem;
+/* ========= ניהול רכבים ========= */
+.cars-manager{
+  background: var(--pd-card);
+  box-shadow: var(--pd-shadow);
+  border-radius: 12px;
+  padding: 22px;
 }
 
+.cars-manager h3{
+  margin: 0 0 14px;
+  font-size: 20px;
+  color: var(--pd-text);
+}
 
-/* Responsive Design for smaller screens */
-@media (max-width: 768px) {
-  .personal-details-form {
-    flex-direction: column;
-  }
+/* טופס הוספה */
+.car-add-form{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 16px;
+}
 
-  .personal-details-left,
-  .personal-details-right {
-    width: 100%;
-    padding: 10px;
-  }
+.car-add-form .input-group label{ font-weight: 600; }
+.car-add-form .submit-button{ width: 100%; }
 
-  .input-group {
-    margin-bottom: 15px;
-  }
+/* רשימת רכבים */
+.cars-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.car-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border: 1px solid var(--pd-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  transition: box-shadow .15s ease, transform .06s ease;
+}
+
+.car-item:hover{
+  box-shadow: var(--pd-shadow);
+  transform: translateY(-1px);
+}
+
+.car-item-left{
+  display: grid;
+  gap: 4px;
+  color: var(--pd-text);
+  font-size: 14px;
+}
+
+.car-item-left b{ font-weight: 700; }
+
+/* כפתור מחיקה */
+.danger{
+  background: var(--pd-danger);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform .06s ease, background-color .15s ease, opacity .15s ease;
+}
+
+.input-group .type{
+  margin: 0;
+}
+
+.danger:hover{ background: var(--pd-danger-600); }
+.danger:active{ transform: translateY(1px); }
+
+/* ========= רספונסיביות ========= */
+@media (max-width: 1024px){
+  .personal-details-sections{ flex-direction: column; }
+  .personal-details-left, .personal-details-right { width: 100%; }
+  .car-add-form { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px){
+  .personal-details-container{ margin: 16px; }
+  .personal-details-form{ padding: 18px; }
+  .car-add-form{ grid-template-columns: 1fr; }
+  .submit-button{ width: 100%; }
+  .car-item{ flex-direction: column; align-items: stretch; }
+  .danger{ width: 100%; }
 }
