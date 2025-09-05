@@ -124,12 +124,29 @@
   border-radius: 10px;
   cursor: pointer;
   font-weight: 700;
-  transition: transform .06s ease, background-color .15s ease, opacity .15s ease;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
 }
 
-.submit-button:hover { background-color: var(--pd-primary-600); }
-.submit-button:active { transform: translateY(1px); }
-.submit-button:disabled { opacity: .6; cursor: not-allowed; }
+.submit-button:hover { 
+  background-color: var(--pd-primary-600);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(247, 163, 6, 0.3);
+}
+.submit-button:active { 
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(247, 163, 6, 0.2);
+}
+.submit-button:disabled { 
+  opacity: 0.6; 
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
 
 /* ========= מודאל אימות ========= */
 .modal {
@@ -167,13 +184,101 @@
 
 /* ========= הודעות שגיאה כלליות ========= */
 .error-message{
-  margin-top: 6px;
+  margin: 16px 0;
   color: #b42318;
   background: #fee4e2;
   border: 1px solid #fecdca;
-  padding: 8px 10px;
+  padding: 12px 16px;
   border-radius: 8px;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-icon {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* ========= Success Messages ========= */
+.success-message {
+  margin: 16px 0;
+  color: #059669;
+  background: #d1fae5;
+  border: 1px solid #a7f3d0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.success-icon {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* ========= Loading States ========= */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f4f6;
+  border-top: 4px solid var(--pd-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.button-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* ========= Form Validation ========= */
+.field-error {
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+.field-hint {
+  color: var(--pd-muted);
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
+.input-group input.error {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.input-group input.error:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
 }
 
 /* ========= ניהול רכבים ========= */
@@ -246,15 +351,33 @@
   padding: 8px 12px;
   cursor: pointer;
   font-weight: 700;
-  transition: transform .06s ease, background-color .15s ease, opacity .15s ease;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
 }
 
 .input-group .type{
   margin: 0;
 }
 
-.danger:hover{ background: var(--pd-danger-600); }
-.danger:active{ transform: translateY(1px); }
+.danger:hover{ 
+  background: var(--pd-danger-600);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+.danger:active{ 
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(220, 38, 38, 0.2);
+}
+.danger:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
 
 /* ========= רספונסיביות ========= */
 @media (max-width: 1024px){

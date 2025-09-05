@@ -16,6 +16,7 @@ const Navigation = () => {
 
   const handleHistory = () => {
     navigate("/history");
+
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  background-color: #a7a6a683;
+  background-color: #a6a7a683;
   padding: 10px;
   height: auto;
   min-height: 100vh;
@@ -146,7 +146,7 @@ td.parking-cell {
   padding: 8px;
   height: 100%;
   border-radius: 8px;
-  width: 100%; /* take full width of the grid column */
+  /* width: 100%;  */
   max-width: 160px;
   max-height: 100px;
   cursor: pointer;
@@ -184,15 +184,9 @@ td.parking-cell {
   background-color: #9f9;
 }
 
-.parking-cell.electric:nth-child(1) {
-  background-color: rgb(255, 187, 153);
-}
 
-.parking-cell.electric:nth-child(3) {
-  background-color: rgb(255, 187, 153);
-}
 .parking-cell.disabled {
-  background-color: #115bb483;
+  background-color: #9f9;
   /* cursor: not-allowed; */
 }
 
@@ -403,6 +397,9 @@ td.parking-cell {
     width: 100% !important;
     padding: 10px;
   }
-
 }
-
+.parking-cell.status-empty { background: #9f9; }
+.parking-cell.status-full { background: #ffb3b3; }
+.parking-cell.status-unknown { background: #e6e6e6; }
+.parking-cell.disabled { background: #115bb483; cursor: not-allowed; }
+.parking-cell.selected { outline: 3px solid yellow; }

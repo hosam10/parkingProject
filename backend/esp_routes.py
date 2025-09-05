@@ -30,6 +30,8 @@ def post_status():
         return jsonify({"error": "use: {'id':'S1','status':'full|empty|unknown'}"}), 400
 
     sensors[sid] = {"status": status, "updated": now_ts()}
+    print(f"[UPDATE] {sid} → {status}")        # ✅ מציג עדכון בטרמינל
+    print("Current sensors:", sensors)         # ✅ מדפיס מצב כללי
     return jsonify({"ok": True, "id": sid, "status": status}), 200
 
 # עדכון באצ׳: {"data":[{"id":"S1","status":"full"}, {"id":"S2","status":"empty"}, ...]}
@@ -44,6 +46,11 @@ def post_batch():
         if sid and status in ("full", "empty", "unknown"):
             sensors[sid] = {"status": status, "updated": now_ts()}
             updated.append(sid)
+
+    if updated:
+        print(f"[BATCH] Updated sensors: {updated}")  # ✅ רשימת עדכונים
+        print("Current sensors:", sensors)            # ✅ מצב כללי
+
     return jsonify({"ok": True, "updated": updated}), 200
 
 # שליפת כל החיישנים לפרונט

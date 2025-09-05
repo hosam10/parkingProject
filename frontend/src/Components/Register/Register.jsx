@@ -16,6 +16,7 @@ const Register = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [carYearError, setCarYearError] = useState("");
   const [isYearModalOpen, setIsYearModalOpen] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
 
   // כפילויות (onBlur)
   const [emailTaken, setEmailTaken] = useState(false);
@@ -35,6 +36,16 @@ const Register = () => {
 
   const normalizePhone = (v) =>
     v.replace(/\D/g, "").replace(/^972/, "0").slice(0, 10);
+
+  const validatePhonePrefix = (phoneNumber) => {
+    const validPrefixes = ["052", "054", "053", "050", "059" , "058"];
+    const normalizedPhone = normalizePhone(phoneNumber);
+    if (normalizedPhone.length === 10) {
+      const prefix = normalizedPhone.substring(0, 3);
+      return validPrefixes.includes(prefix);
+    }
+    return false;
+  };
 
   async function checkEmail() {
     if (!email) return;
@@ -86,6 +97,13 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
+
+    // Validate phone prefix before submitting
+    const normalizedPhone = normalizePhone(phone);
+    if (normalizedPhone.length === 10 && !validatePhonePrefix(normalizedPhone)) {
+      setPhoneError("Phone number must start with 052, 054, 053, 050, 058, or 059");
+      return;
+    }
 
     try {
       const payload = {
@@ -153,6 +171,17 @@ const Register = () => {
                   const norm = digits.startsWith("972") ? "0" + digits.slice(3) : digits;
                   setPhone(norm.slice(0, 10));
                   setPhoneTaken(false);
+                  
+                  // Validate phone prefix
+                  if (norm.length === 10) {
+                    if (!validatePhonePrefix(norm)) {
+                      setPhoneError("Phone number must start with 052/3/4/5/8/9");
+                    } else {
+                      setPhoneError("");
+                    }
+                  } else {
+                    setPhoneError("");
+                  }
                 }}
                 onBlur={checkPhone}
                 placeholder="0521234567"
@@ -161,6 +190,7 @@ const Register = () => {
                 maxLength={10}
               />
               {phoneTaken && <p className="error-message">Phone already exists</p>}
+              {phoneError && <p className="error-message">{phoneError}</p>}
             </div>
 
             <div className="form-group-register">
@@ -258,7 +288,7 @@ const Register = () => {
               <button
                 type="submit"
                 className="toggle-btn-register"
-                disabled={emailTaken || phoneTaken || carTaken}
+                disabled={emailTaken || phoneTaken || carTaken || phoneError}
               >
                 Sign Up
               </button>

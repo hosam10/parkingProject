@@ -35,11 +35,9 @@ export default function PersonalDetails() {
   const [userDetails, setUserDetails] = useState(null);
   const [ownerId, setOwnerId] = useState(storedUser?.id || null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
 
-  // --- אימות מייל ---
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [verificationCode, setVerificationCode] = useState("");
-  const [verifying, setVerifying] = useState(false);
 
   // --- רכבים ---
   const [cars, setCars] = useState([]);
@@ -47,6 +45,12 @@ export default function PersonalDetails() {
   const [carTypeNew, setCarTypeNew] = useState("");
   const [carYearNew, setCarYearNew] = useState("");
   const [carsError, setCarsError] = useState("");
+  const [addingCar, setAddingCar] = useState(false);
+  const [deletingCar, setDeletingCar] = useState(null);
+
+  // --- Form validation states ---
+  const [formErrors, setFormErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState("");
 
   const CAR_BRANDS = [
     "Toyota",
@@ -99,26 +103,80 @@ export default function PersonalDetails() {
     "Mahindra",
   ];
 
+  // ----- Form validation functions -----
+  const validateForm = (formData) => {
+    const errors = {};
+    
+    if (!formData.name?.trim()) {
+      errors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      errors.name = "Name must be at least 2 characters";
+    }
+    
+    if (!formData.address?.trim()) {
+      errors.address = "Address is required";
+    } else if (formData.address.trim().length < 5) {
+      errors.address = "Address must be at least 5 characters";
+    }
+    
+    if (formData.password && formData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+    }
+    
+    return errors;
+  };
+
+  const validateCarForm = (carData) => {
+    const errors = {};
+    
+    const num = normalizeCarNumber(carData.carNumber);
+    if (!num || num.length < 6 || num.length > 8) {
+      errors.carNumber = "Car number must be 6-8 digits";
+    }
+    
+    if (!carData.carType?.trim()) {
+      errors.carType = "Car type is required";
+    }
+    
+    const year = parseInt(carData.carYear || "0", 10);
+    if (!year || year < MIN_YEAR || year > MAX_YEAR) {
+      errors.carYear = `Year must be between ${MIN_YEAR}-${MAX_YEAR}`;
+    }
+    
+    return errors;
+  };
+
   // ----- טעינת פרטי המשתמש -----
   const localCarNumber = storedUser?.car_number;
   useEffect(() => {
-    if (!localCarNumber && !storedUser?.email) {
-      setErrorMessage("User is not logged in or identifiers are missing.");
-      return;
-    }
-    axios
-      .get(`${API}/get_user_details`, {
-        params: {
-          car_number: localCarNumber || undefined,
-          email: storedUser?.email || undefined,
-        },
-      })
-      .then((res) => {
+    const loadUserDetails = async () => {
+      if (!localCarNumber && !storedUser?.email) {
+        setErrorMessage("User is not logged in or identifiers are missing.");
+        setLoading(false);
+        return;
+      }
+      
+      try {
+        setLoading(true);
+        setErrorMessage("");
+        const res = await axios.get(`${API}/get_user_details`, {
+          params: {
+            car_number: localCarNumber || undefined,
+            email: storedUser?.email || undefined,
+          },
+        });
         const u = res.data.user || {};
         setUserDetails(u);
         if (!ownerId && u?.id) setOwnerId(u.id);
-      })
-      .catch(() => setErrorMessage("Error fetching user details"));
+      } catch (err) {
+        setErrorMessage("Failed to load user details. Please try again.");
+        console.error("Error loading user details:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUserDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localCarNumber]);
 
@@ -129,118 +187,166 @@ export default function PersonalDetails() {
       const { data } = await axios.get(`${API}/users/${uid}/cars`);
       setCars(data.cars || []);
     } catch {
-      setCarsError("Failed to load cars");
+      setCarsError("");
+      // setCarsError("Failed to load cars");
     }
   };
   useEffect(() => {
     if (ownerId) loadCars(ownerId);
   }, [ownerId]);
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
   const form = e.target;
   const storedUser = JSON.parse(localStorage.getItem("user"));
 
-  const updatedDetails = {
+  const formData = {
     name: form.name.value.trim(),
     address: form.address.value.trim(),
-    phone: storedUser?.phone || "",  // מזהה לפי מספר טלפון
+    phone: storedUser?.phone || "",
     password: form.password.value.trim(),
   };
 
-  axios
-    .put(`${API}/update_user_details`, updatedDetails)
-    .then((response) => {
-      alert(response.data.message);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-      window.dispatchEvent(new Event("storage"));
-    })
-    .catch((err) => {
-      alert(err.response?.data?.message || "Error updating user details");
-    });
+  // Validate form
+  const errors = validateForm(formData);
+  if (Object.keys(errors).length > 0) {
+    setFormErrors(errors);
+    return;
+  }
+
+  try {
+    setUpdating(true);
+    setFormErrors({});
+    setSuccessMessage("");
+    
+    const response = await axios.put(`${API}/update_user_details`, formData);
+    
+    setSuccessMessage("Details updated successfully!");
+    localStorage.setItem("user", JSON.stringify(response.data.user));
+    window.dispatchEvent(new Event("storage"));
+    
+    // Clear success message after 3 seconds
+    setTimeout(() => setSuccessMessage(""), 3000);
+  } catch (err) {
+    setErrorMessage(err.response?.data?.message || "Error updating user details");
+  } finally {
+    setUpdating(false);
+  }
 };
 
 
 
-  // ----- בקשת קוד + פתיחת מודאל -----
-  const verifyAndUpdate = async (e) => {
-    e.preventDefault();
-  
-    const email = (storedUser?.email || userDetails?.email || "").trim();
-    if (!email) return alert("No email found for verification.");
-    setVerifying(true);
-    try {
-      await axios.post(`${API}/send_verification_code`, { email });
-      setIsModalOpen(true);
-    } catch (err) {
-      alert(err.response?.data?.message || "Error sending verification code.");
-    }
-    setVerifying(false);
-  };
-
-  // ----- אימות קוד ואז שליחה ל-handleSubmit -----
-  const handleCodeVerification = async () => {
-    const email = (storedUser?.email || userDetails?.email || "").trim(); // ללא הנמכה
-    try {
-      const res = await axios.post(`${API}/verify_email_code`, {
-        email,
-        code: verificationCode,
-      });
-      if (res.data.message === "Verification successful") {
-        setIsModalOpen(false);
-        const form = document.querySelector(".personal-details-form");
-        if (form) handleSubmit({ preventDefault: () => {}, target: form });
-      } else {
-        alert("Invalid verification code.");
-      }
-    } catch (err) {
-      alert(err.response?.data?.message || "Verification failed.");
-    }
-  };
 
   // ----- הוספת רכב -----
   const addCar = async (e) => {
     e.preventDefault();
     setCarsError("");
-    if (!ownerId) return setCarsError("Missing user id.");
-    const num = normalizeCarNumber(carNumberNew);
-    const yr = parseInt(carYearNew || "0", 10);
-    if (!(num.length >= 6 && num.length <= 8))
-      return setCarsError("Car number must be 6–8 digits.");
-    if (yr < MIN_YEAR || yr > MAX_YEAR)
-      return setCarsError(`Car year must be between ${MIN_YEAR}-${MAX_YEAR}.`);
-    if (!carTypeNew.trim()) return setCarsError("Car type is required.");
+    
+    if (!ownerId) {
+      setCarsError("Missing user id.");
+      return;
+    }
+
+    const carData = {
+      carNumber: carNumberNew,
+      carType: carTypeNew,
+      carYear: carYearNew,
+    };
+
+    // Validate car form
+    const errors = validateCarForm(carData);
+    if (Object.keys(errors).length > 0) {
+      setCarsError(Object.values(errors)[0]); // Show first error
+      return;
+    }
 
     try {
+      setAddingCar(true);
+      const num = normalizeCarNumber(carNumberNew);
+      const yr = parseInt(carYearNew, 10);
+      
       const { data } = await axios.post(`${API}/users/${ownerId}/cars`, {
         car_number: num,
         car_type: carTypeNew.trim(),
         car_year: yr,
       });
+      
       setCars(data.cars || []);
       setCarNumberNew("");
       setCarTypeNew("");
       setCarYearNew("");
+      setSuccessMessage("Car added successfully!");
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(""), 3000);
     } catch (err) {
       setCarsError(err.response?.data?.message || "Failed to add car.");
+    } finally {
+      setAddingCar(false);
     }
   };
 
   // ----- מחיקת רכב -----
   const deleteCar = async (carId) => {
+    const car = cars.find(c => c.id === carId);
+    if (!car) return;
+
+    const confirmed = window.confirm(
+      `Are you sure you want to delete car ${car.car_number} (${car.car_type} ${car.car_year})?`
+    );
+    
+    if (!confirmed) return;
+
     setCarsError("");
     try {
+      setDeletingCar(carId);
       await axios.delete(`${API}/users/${ownerId}/cars/${carId}`);
       setCars((prev) => prev.filter((c) => c.id !== carId));
+      setSuccessMessage("Car deleted successfully!");
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(""), 3000);
     } catch (err) {
       setCarsError(err.response?.data?.message || "Failed to delete car.");
+    } finally {
+      setDeletingCar(null);
     }
   };
+
+  if (loading) {
+    return (
+      <div>
+        <HeaderHome />
+        <div className="personal-details-container">
+          <div className="loading-container">
+            <div className="loading-spinner"></div>
+            <p>Loading your details...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
       <HeaderHome />
       <div className="personal-details-container">
+        {/* Success Message */}
+        {successMessage && (
+          <div className="success-message">
+            <span className="success-icon">✓</span>
+            {successMessage}
+          </div>
+        )}
+
+        {/* Error Message */}
+        {errorMessage && (
+          <div className="error-message">
+            <span className="error-icon">⚠</span>
+            {errorMessage}
+          </div>
+        )}
+
         {/* טופס פרטים כלליים + אימות מייל */}
         <form onSubmit={handleSubmit} className="personal-details-form">
           <h2>
@@ -255,8 +361,12 @@ const handleSubmit = (e) => {
                   id="name"
                   name="name"
                   defaultValue={userDetails?.name || ""}
+                  className={formErrors.name ? "error" : ""}
                   required
                 />
+                {formErrors.name && (
+                  <span className="field-error">{formErrors.name}</span>
+                )}
               </div>
               <div className="input-group">
                 <label htmlFor="address">Address</label>
@@ -264,8 +374,12 @@ const handleSubmit = (e) => {
                   id="address"
                   name="address"
                   defaultValue={userDetails?.address || ""}
+                  className={formErrors.address ? "error" : ""}
                   required
                 />
+                {formErrors.address && (
+                  <span className="field-error">{formErrors.address}</span>
+                )}
               </div>
               <div className="input-group">
                 <label htmlFor="email">Email</label>
@@ -276,6 +390,7 @@ const handleSubmit = (e) => {
                   defaultValue={userDetails?.email || ""}
                   disabled
                 />
+                <small className="field-hint">Email cannot be changed</small>
               </div>
             </div>
 
@@ -299,15 +414,28 @@ const handleSubmit = (e) => {
                   name="password"
                   type="password"
                   defaultValue={userDetails?.password || ""}
+                  className={formErrors.password ? "error" : ""}
+                  placeholder="Leave empty to keep current password"
                 />
+                {formErrors.password && (
+                  <span className="field-error">{formErrors.password}</span>
+                )}
+                <small className="field-hint">Leave empty to keep current password</small>
               </div>
 
               <button
                 type="submit"
                 className="submit-button"
-                disabled={verifying}
+                disabled={updating}
               >
-                {verifying ? "Sending code..." : "Update Details"}
+                {updating ? (
+                  <>
+                    <span className="button-spinner"></span>
+                    Updating...
+                  </>
+                ) : (
+                  "Update Details"
+                )}
               </button>
             </div>
           </div>
@@ -368,8 +496,15 @@ const handleSubmit = (e) => {
                 required
               />
             </div>
-            <button type="submit" className="submit-button">
-              Add Car
+            <button type="submit" className="submit-button" disabled={addingCar}>
+              {addingCar ? (
+                <>
+                  <span className="button-spinner"></span>
+                  Adding...
+                </>
+              ) : (
+                "Add Car"
+              )}
             </button>
           </form>
 
@@ -390,8 +525,19 @@ const handleSubmit = (e) => {
                       <b>Year:</b> {c.car_year}
                     </div>
                   </div>
-                  <button className="danger" onClick={() => deleteCar(c.id)}>
-                    Delete
+                  <button 
+                    className="danger" 
+                    onClick={() => deleteCar(c.id)}
+                    disabled={deletingCar === c.id}
+                  >
+                    {deletingCar === c.id ? (
+                      <>
+                        <span className="button-spinner"></span>
+                        Deleting...
+                      </>
+                    ) : (
+                      "Delete"
+                    )}
                   </button>
                 </li>
               ))}
@@ -399,30 +545,6 @@ const handleSubmit = (e) => {
           )}
         </div>
 
-        {/* מודאל אימות קוד */}
-        {/* <Modal
-          isOpen={isModalOpen}
-          onRequestClose={() => setIsModalOpen(false)}
-          contentLabel="Enter Verification Code"
-          className="modal"
-          overlayClassName="modal-overlay"
-        >
-          <h2>Verify Your Email</h2>
-          <p>Enter the 6-digit code sent to your email.</p>
-          <input
-            type="text"
-            maxLength={6}
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ""))}
-            placeholder="123456"
-          />
-          <div className="modal-actions">
-            <button onClick={handleCodeVerification}>Verify</button>
-            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
-          </div>
-        </Modal> */}
-
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
     </div>
   );

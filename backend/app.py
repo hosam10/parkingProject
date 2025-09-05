@@ -689,20 +689,22 @@ def save_parking_record():
     duration_hours = round((exit_dt - entry_dt).total_seconds() / 3600, 2)
 
     cursor = db.cursor(dictionary=True)
+   # בדיקה אם יש חפיפה לרכב אחר באותו חניה
     cursor.execute(
-        """
-        SELECT 1 FROM parking_records
-        WHERE car_number=%s
-          AND location=%s
-          AND %s < exitTime
-          AND %s > entryTime
-        """,
-        (car_number, location, exit_full, entry_full),
+    """
+    SELECT 1 FROM parking_records
+    WHERE parking_num=%s
+      AND location=%s
+      AND %s < exitTime
+      AND %s > entryTime
+    """,
+    (parking_num, location, exit_full, entry_full),
     )
-    overlap = cursor.fetchone()
-    if overlap:
+    spot_overlap = cursor.fetchone()
+    if spot_overlap:
         cursor.close()
-        return jsonify({"message": "Car is already parked during this time"}), 409
+        return jsonify({"message": "Spot is already taken during this time"}), 409
+
 
     cursor.execute(
         """
